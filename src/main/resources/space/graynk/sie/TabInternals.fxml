@@ -49,7 +49,7 @@
                         contentDisplay="GRAPHIC_ONLY"
                         mnemonicParsing="false" toggleGroup="$tools">
             <graphic>
-              <FontIcon iconLiteral="fltral-color-fill-20"
+              <FontIcon iconLiteral="fltfal-color-fill-20"
                         iconSize="24"/>
             </graphic>
             <tooltip>
