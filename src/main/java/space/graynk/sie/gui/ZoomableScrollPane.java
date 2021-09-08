@@ -1,4 +1,4 @@
-package space.graynk.sie;
+package space.graynk.sie.gui;
 
 import javafx.beans.DefaultProperty;
 import javafx.geometry.Bounds;
@@ -6,7 +6,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 

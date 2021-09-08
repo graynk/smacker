@@ -1,10 +1,11 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -25,11 +26,12 @@ public class SieController {
             new FileChooser.ExtensionFilter("Image files", "*.jpg", "*.jpeg", "*.png"),
     };
 
-    @FXML
-    private CanvasController canvasController;
 
     @FXML
-    private VBox vbox;
+    private TabPane tabPane;
+    @FXML
+    private TabInternalsController tabInternalsController;
+
     private final File userDirectory;
     private final FileChooser fileChooser = new FileChooser();
 
@@ -53,10 +55,6 @@ public class SieController {
         worker.submit(() -> {
             try {
                 Thread.sleep(200);
-                Platform.runLater(() -> {
-                    this.vbox.getScene().getWindow().setRenderScaleX(2);
-                    this.vbox.getScene().getWindow().setRenderScaleY(2);
-                });
 //                var file = new File("/home/graynk/Pictures/gzwuspaspm641.png");
                 var file = new File("/home/graynk/Pictures/godot.png");
                 loadImageFromFile(file);
@@ -68,11 +66,13 @@ public class SieController {
 
     private void loadImageFromFile(File file) {
         var image = new Image(file.toURI().toString());
-        canvasController.drawImage(image);
+        //TODO open tab
+        tabInternalsController.drawImage(image);
     }
 
     private void saveImageToFile(File file) {
-        var renderedImage = canvasController.getImage();
+        //TODO get from tab
+        var renderedImage = tabInternalsController.getImage();
         worker.submit(() -> {
             try {
                 ImageIO.write(renderedImage, "png", file);
@@ -104,5 +104,10 @@ public class SieController {
             return;
         }
         worker.submit(() -> loadImageFromFile(file));
+    }
+
+    @FXML
+    private void quit() {
+        Platform.exit();
     }
 }

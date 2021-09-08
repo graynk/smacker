@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
+import space.graynk.sie.gui.ZoomableScrollPane;
 
 import java.awt.image.BufferedImage;
 
@@ -20,6 +21,7 @@ public class CanvasController {
     private ZoomableScrollPane scrollPane;
     @FXML
     private Canvas mainCanvas;
+    private Color currentColor = Color.BLACK;
 
     private GraphicsContext context;
 
@@ -83,9 +85,13 @@ public class CanvasController {
 //            context.restore();
             return;
         }
-        context.setFill(Color.RED);
+        context.setFill(currentColor);
         var radius = 4;
         context.fillOval(event.getX() - radius, event.getY() - radius, radius * 2, radius * 2);
 //        context.getPixelWriter().setColor((int)event.getX(), (int)event.getY(), Color.RED);
+    }
+
+    public void setCurrentColor(Color color) {
+        this.currentColor = color;
     }
 }

@@ -38,75 +38,122 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<VBox prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="space.graynk.sie.SieController" fx:id="vbox">
-  <MenuBar VBox.vgrow="NEVER">
-    <Menu mnemonicParsing="false" text="File">
-      <MenuItem mnemonicParsing="false" text="New"/>
-      <MenuItem mnemonicParsing="false" onAction="#onOpenFile" text="Open"/>
-      <Menu mnemonicParsing="false" text="Open Recent"/>
-      <SeparatorMenuItem mnemonicParsing="false"/>
-      <MenuItem mnemonicParsing="false" text="Close"/>
-      <MenuItem mnemonicParsing="false" text="Save"/>
-      <MenuItem mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As…"/>
-      <SeparatorMenuItem mnemonicParsing="false"/>
-      <MenuItem mnemonicParsing="false" text="Preferences"/>
-      <SeparatorMenuItem mnemonicParsing="false"/>
-      <MenuItem mnemonicParsing="false" text="Quit"/>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Edit">
-      <MenuItem mnemonicParsing="false" text="Undo"/>
-      <MenuItem mnemonicParsing="false" text="Redo"/>
-      <SeparatorMenuItem mnemonicParsing="false"/>
-      <MenuItem mnemonicParsing="false" text="Cut"/>
-      <MenuItem mnemonicParsing="false" text="Copy"/>
-      <MenuItem mnemonicParsing="false" text="Paste"/>
-      <MenuItem mnemonicParsing="false" text="Delete"/>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Help">
-      <MenuItem mnemonicParsing="false" text="About Sie"/>
-    </Menu>
-  </MenuBar>
-  <SplitPane dividerPositions="0.05, 0.9" focusTraversable="true" VBox.vgrow="ALWAYS">
-    <AnchorPane>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" style="&#10;"
-             text="Master" textAlignment="CENTER">
+
+<BorderPane xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="space.graynk.sie.SieController"
+            prefWidth="1600"
+            prefHeight="900">
+  <center>
+    <TabPane fx:id="tabPane">
+      <Tab text="Image Tab">
+        <fx:include fx:id="tabInternals" source="TabInternals.fxml"/>
+      </Tab>
+    </TabPane>
+  </center>
+  <top>
+    <MenuBar BorderPane.alignment="CENTER">
+      <Menu mnemonicParsing="false" text="File">
+        <MenuItem mnemonicParsing="false" text="New">
+          <graphic>
+            <FontIcon iconLiteral="fltral-document-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" onAction="#onOpenFile" text="Open">
+          <graphic>
+            <FontIcon iconLiteral="fltral-folder-open-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <Menu mnemonicParsing="false" text="Open Recent"/>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem mnemonicParsing="false" text="Save">
+          <graphic>
+            <FontIcon iconLiteral="fltrmz-save-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As…">
+          <graphic>
+            <FontIcon iconLiteral="fltrmz-save-as-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem mnemonicParsing="false" text="Preferences">
+          <graphic>
+            <FontIcon iconLiteral="fltrmz-settings-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
+          <graphic>
+            <FontIcon iconLiteral="fltfmz-pane-close-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Edit">
+        <MenuItem mnemonicParsing="false" text="Undo">
+          <graphic>
+            <FontIcon iconLiteral="fltral-arrow-undo-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" text="Redo">
+          <graphic>
+            <FontIcon iconLiteral="fltral-arrow-redo-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem mnemonicParsing="false" text="Cut">
+          <graphic>
+            <FontIcon iconLiteral="fltral-cut-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" text="Copy">
+          <graphic>
+            <FontIcon iconLiteral="fltral-copy-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" text="Paste">
+          <graphic>
+            <FontIcon iconLiteral="fltral-copy-image-24" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" text="Delete">
+          <graphic>
+            <FontIcon iconLiteral="fltral-delete-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" text="About Sie">
+          <graphic>
+            <FontIcon iconLiteral="fltral-info-20" iconSize="18"/>
+          </graphic>
+        </MenuItem>
+      </Menu>
+    </MenuBar>
+  </top>
+  <bottom>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+      </padding>
+      <Label maxHeight="1.7976931348623157E308" text="Left status" HBox.hgrow="ALWAYS">
         <font>
-          <Font size="18.0" fx:id="x1"/>
+          <Font size="11.0" fx:id="x3"/>
         </font>
         <textFill>
-          <Color red="0.624" green="0.624" blue="0.624" fx:id="x2"/>
+          <Color red="0.625" green="0.625" blue="0.625" fx:id="x4"/>
         </textFill>
       </Label>
-    </AnchorPane>
-    <fx:include fx:id="canvas" source="CanvasArea.fxml"/>
-    <AnchorPane>
-      <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details"
-             textAlignment="CENTER" textFill="$x2"/>
-    </AnchorPane>
-  </SplitPane>
-  <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-    <padding>
-      <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
-    </padding>
-    <Label maxHeight="1.7976931348623157E308" text="Left status" HBox.hgrow="ALWAYS">
-      <font>
-        <Font size="11.0" fx:id="x3"/>
-      </font>
-      <textFill>
-        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4"/>
-      </textFill>
-    </Label>
-    <Pane HBox.hgrow="ALWAYS"/>
-    <Label font="$x3" text="Right status" textFill="$x4" HBox.hgrow="NEVER"/>
-  </HBox>
-</VBox>
+      <Pane HBox.hgrow="ALWAYS"/>
+      <Label font="$x3" text="Right status" textFill="$x4" HBox.hgrow="NEVER"/>
+    </HBox>
+  </bottom>
+</BorderPane>

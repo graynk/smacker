@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import space.graynk.sie.ZoomableScrollPane?>
+<?import space.graynk.sie.gui.ZoomableScrollPane?>
 <?import javafx.scene.canvas.Canvas?>
 
 <ZoomableScrollPane xmlns="http://javafx.com/javafx"

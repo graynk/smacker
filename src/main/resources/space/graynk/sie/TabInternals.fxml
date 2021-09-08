@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.paint.Color?>
+
+<BorderPane xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="space.graynk.sie.TabInternalsController">
+  <left>
+    <TitledPane animated="false" collapsible="false" text="Tools"
+                BorderPane.alignment="TOP_CENTER">
+      <ToolBar orientation="VERTICAL">
+        <ToolBar>
+          <ToggleButton accessibleText="Brush"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" selected="true">
+            <graphic>
+              <FontIcon iconLiteral="cil-brush" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Brush"/>
+            </tooltip>
+            <toggleGroup>
+              <ToggleGroup fx:id="tools"/>
+            </toggleGroup>
+          </ToggleButton>
+          <ToggleButton accessibleText="Pencil"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltral-edit-20" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Pencil"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <ToolBar layoutX="10.0" layoutY="57.0">
+          <ToggleButton accessibleText="Bucket"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltral-color-fill-20"
+                        iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Bucket"/>
+            </tooltip>
+          </ToggleButton>
+          <ToggleButton accessibleText="Eraser"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltral-eraser-20" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Eraser"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <ToolBar layoutX="10.0" layoutY="103.0">
+          <ToggleButton accessibleText="Add Text"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltrmz-text-add-24"
+                        iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Add Text"/>
+            </tooltip>
+          </ToggleButton>
+          <ToggleButton accessibleText="Color Picker"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltral-color-24" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Color Picker"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <ToolBar layoutX="10.0" layoutY="239.0">
+          <ToggleButton accessibleText="Draw Line"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltfal-color-line-20"
+                        iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Draw Line"/>
+            </tooltip>
+          </ToggleButton>
+          <ToggleButton accessibleText="Draw Rectangle"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Draw Rectangle"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <ToolBar layoutX="10.0" layoutY="57.0">
+          <ToggleButton accessibleText="Draw Oval"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="cil-circle" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Draw Oval"/>
+            </tooltip>
+          </ToggleButton>
+          <ToggleButton accessibleText="Draw Rounded Rectangle"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Draw Rounded Rectangle"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <ToolBar>
+          <ToggleButton accessibleText="Move"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltral-drag-24" iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Move"/>
+            </tooltip>
+          </ToggleButton>
+          <ToggleButton accessibleText="Select"
+                        contentDisplay="GRAPHIC_ONLY"
+                        mnemonicParsing="false" toggleGroup="$tools">
+            <graphic>
+              <FontIcon iconLiteral="fltrmz-select-object-20"
+                        iconSize="24"/>
+            </graphic>
+            <tooltip>
+              <Tooltip text="Select"/>
+            </tooltip>
+          </ToggleButton>
+        </ToolBar>
+        <Separator/>
+        <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="95.0" onAction="#colorChanged">
+          <value>
+            <Color/>
+          </value>
+        </ColorPicker>
+      </ToolBar>
+    </TitledPane>
+  </left>
+  <center>
+    <fx:include fx:id="canvas" source="CanvasArea.fxml"/>
+  </center>
+  <right>
+    <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
+                BorderPane.alignment="TOP_CENTER"/>
+  </right>
+</BorderPane>
