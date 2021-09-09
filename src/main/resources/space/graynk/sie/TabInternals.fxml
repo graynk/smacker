@@ -35,7 +35,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Pencil"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltral-edit-20" iconSize="24"/>
             </graphic>
@@ -47,7 +47,7 @@
         <ToolBar layoutX="10.0" layoutY="57.0">
           <ToggleButton accessibleText="Bucket"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltfal-color-fill-20"
                         iconSize="24"/>
@@ -58,7 +58,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Eraser"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltral-eraser-20" iconSize="24"/>
             </graphic>
@@ -70,7 +70,7 @@
         <ToolBar layoutX="10.0" layoutY="103.0">
           <ToggleButton accessibleText="Add Text"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltrmz-text-add-24"
                         iconSize="24"/>
@@ -81,7 +81,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Color Picker"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltral-color-24" iconSize="24"/>
             </graphic>
@@ -93,7 +93,7 @@
         <ToolBar layoutX="10.0" layoutY="239.0">
           <ToggleButton accessibleText="Draw Line"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltfal-color-line-20"
                         iconSize="24"/>
@@ -104,7 +104,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Draw Rectangle"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
             </graphic>
@@ -116,7 +116,7 @@
         <ToolBar layoutX="10.0" layoutY="57.0">
           <ToggleButton accessibleText="Draw Oval"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="cil-circle" iconSize="24"/>
             </graphic>
@@ -126,7 +126,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Draw Rounded Rectangle"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
             </graphic>
@@ -138,7 +138,7 @@
         <ToolBar>
           <ToggleButton accessibleText="Move"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltral-drag-24" iconSize="24"/>
             </graphic>
@@ -148,7 +148,7 @@
           </ToggleButton>
           <ToggleButton accessibleText="Select"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
+                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
             <graphic>
               <FontIcon iconLiteral="fltrmz-select-object-20"
                         iconSize="24"/>
@@ -159,7 +159,7 @@
           </ToggleButton>
         </ToolBar>
         <Separator/>
-        <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="95.0" onAction="#colorChanged">
+        <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="95.0">
           <value>
             <Color/>
           </value>

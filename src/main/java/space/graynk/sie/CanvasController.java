@@ -1,6 +1,8 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -21,7 +23,7 @@ public class CanvasController {
     private ZoomableScrollPane scrollPane;
     @FXML
     private Canvas mainCanvas;
-    private Color currentColor = Color.BLACK;
+    private final ReadOnlyObjectWrapper<Color> currentColor = new ReadOnlyObjectWrapper<>(Color.BLACK);
 
     private GraphicsContext context;
 
@@ -85,13 +87,13 @@ public class CanvasController {
 //            context.restore();
             return;
         }
-        context.setFill(currentColor);
+        context.setFill(currentColor.getValue());
         var radius = 4;
         context.fillOval(event.getX() - radius, event.getY() - radius, radius * 2, radius * 2);
 //        context.getPixelWriter().setColor((int)event.getX(), (int)event.getY(), Color.RED);
     }
 
-    public void setCurrentColor(Color color) {
-        this.currentColor = color;
+    public void bindColorProperty(ObjectProperty<Color> color) {
+        this.currentColor.bind(color);
     }
 }
