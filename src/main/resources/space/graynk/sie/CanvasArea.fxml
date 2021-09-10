@@ -3,11 +3,14 @@
 <?import space.graynk.sie.gui.ZoomableScrollPane?>
 <?import javafx.scene.canvas.Canvas?>
 
+<?import javafx.scene.layout.StackPane?>
 <ZoomableScrollPane xmlns="http://javafx.com/javafx"
                     xmlns:fx="http://javafx.com/fxml"
                     fx:controller="space.graynk.sie.CanvasController"
                     fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true"
                     prefHeight="400.0" prefWidth="600.0">
-    <Canvas fx:id="mainCanvas" height="700.0" layoutX="350.0" layoutY="70.0" width="700.0"
-            onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseDragEnd"/>
+    <StackPane fx:id="stackPane">
+        <Canvas fx:id="mainCanvas" height="700.0" layoutX="350.0" layoutY="70.0" width="700.0"
+                onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseDragEnd"/>
+    </StackPane>
 </ZoomableScrollPane>

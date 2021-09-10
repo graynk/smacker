@@ -130,6 +130,14 @@
           </graphic>
         </MenuItem>
       </Menu>
+      <Menu mnemonicParsing="false" text="Layers">
+        <MenuItem mnemonicParsing="false" text="Add New Layer" onAction="#addLayer"/>
+        <MenuItem mnemonicParsing="false" text="Delete Layer" onAction="#deleteLayer"/>
+        <MenuItem mnemonicParsing="false" text="Duplicate Layer"/>
+        <MenuItem mnemonicParsing="false" text="Merge Layer Down" onAction="#mergeDown"/>
+        <MenuItem mnemonicParsing="false" text="Flip Horizontal"/>
+        <MenuItem mnemonicParsing="false" text="Flip Vertical"/>
+      </Menu>
       <Menu mnemonicParsing="false" text="Help">
         <MenuItem mnemonicParsing="false" text="About Sie">
           <graphic>
