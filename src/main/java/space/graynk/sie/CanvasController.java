@@ -2,7 +2,9 @@ package space.graynk.sie;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -23,9 +25,17 @@ public class CanvasController {
     private ZoomableScrollPane scrollPane;
     @FXML
     private Canvas mainCanvas;
+    public final ReadOnlyObjectProperty<Image> layerPreviewProperty;
+    private final ObjectProperty<Image> layerPreview = new SimpleObjectProperty<>();
     private final ReadOnlyObjectWrapper<Color> currentColor = new ReadOnlyObjectWrapper<>(Color.BLACK);
 
     private GraphicsContext context;
+
+    public CanvasController() {
+        var previewWrapper = new ReadOnlyObjectWrapper<Image>();
+        previewWrapper.bind(this.layerPreview);
+        this.layerPreviewProperty = previewWrapper.getReadOnlyProperty();
+    }
 
     @FXML
     private void initialize() {
@@ -42,6 +52,7 @@ public class CanvasController {
             mainCanvas.setWidth(image.getWidth());
             mainCanvas.setHeight(image.getHeight());
             context.drawImage(image, 0, 0);
+            layerPreview.setValue(getPreview());
             scrollPane.resetScale();
         };
 
@@ -53,12 +64,25 @@ public class CanvasController {
         Platform.runLater(runnable);
     }
 
-    public BufferedImage getImage() {
+    public Image getPreview() {
+        var previewSize = 50;
+        var width = mainCanvas.getWidth();
+        var height = mainCanvas.getHeight();
+        final SnapshotParameters spa = new SnapshotParameters();
+        var biggestSide = Math.max(width, height);
+        var scale = previewSize / biggestSide;
+        spa.setTransform(Transform.scale(scale, scale));
+        var image = new WritableImage(previewSize, previewSize);
+        mainCanvas.snapshot(spa, image);
+        return image;
+    }
+
+    public BufferedImage getImageForSaving() {
         final SnapshotParameters spa = new SnapshotParameters();
         var scale = 1 / scrollPane.scaleValue;
         spa.setTransform(Transform.scale(scale, scale));
-        var writableImage = new WritableImage((int)mainCanvas.getWidth(), (int)mainCanvas.getHeight());
-        var image = mainCanvas.snapshot(spa, writableImage);
+        var image = new WritableImage((int)mainCanvas.getWidth(), (int)mainCanvas.getHeight());
+        mainCanvas.snapshot(spa, image);
         return SwingFXUtils.fromFXImage(image, null);
     }
 
@@ -91,6 +115,11 @@ public class CanvasController {
         var radius = 4;
         context.fillOval(event.getX() - radius, event.getY() - radius, radius * 2, radius * 2);
 //        context.getPixelWriter().setColor((int)event.getX(), (int)event.getY(), Color.RED);
+    }
+
+    @FXML
+    private void onMouseDragEnd(MouseEvent event) {
+        layerPreview.setValue(getPreview());
     }
 
     public void bindColorProperty(ObjectProperty<Color> color) {

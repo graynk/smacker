@@ -12,6 +12,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.paint.Color?>
 
+<?import javafx.scene.control.ListView?>
 <BorderPane xmlns="http://javafx.com/javafx/16"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
@@ -172,6 +173,10 @@
   </center>
   <right>
     <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
-                BorderPane.alignment="TOP_CENTER"/>
+                BorderPane.alignment="TOP_CENTER">
+      <ListView fx:id="layers">
+
+      </ListView>
+    </TitledPane>
   </right>
 </BorderPane>
