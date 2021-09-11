@@ -1,4 +1,22 @@
 package space.graynk.sie.tools;
 
-public interface Tool {
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
+
+public abstract class Tool {
+    protected Canvas canvas;
+    protected GraphicsContext context;
+
+    public void handleDragStart(MouseEvent event, Canvas canvas) {
+        this.canvas = canvas;
+        this.context = canvas.getGraphicsContext2D();
+    }
+
+    public void handleDrag(MouseEvent event) {
+
+    }
+    public void handleDragEnd(MouseEvent event) {
+
+    }
 }

@@ -10,14 +10,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.transform.Transform;
 
-public class LayerItem {
+public class Layer {
     private ReadOnlyObjectWrapper<Image> preview = new ReadOnlyObjectWrapper<>();
     public ReadOnlyObjectProperty<Image> previewProperty;
     private String text;
     private final Canvas canvas;
     private final GraphicsContext context;
 
-    public LayerItem(String text, Canvas canvas) {
+    public Layer(String text, Canvas canvas) {
         this.previewProperty = preview;
         this.text = text;
         this.previewProperty = preview.getReadOnlyProperty();
@@ -26,11 +26,12 @@ public class LayerItem {
         this.updatePreview();
     }
 
-    public LayerItem(String text) {
+    public Layer(String text) {
         this.previewProperty = preview;
         this.text = text;
         this.previewProperty = preview.getReadOnlyProperty();
         this.canvas = new Canvas(500, 500);
+        canvas.setMouseTransparent(true);
         this.context = canvas.getGraphicsContext2D();
         this.updatePreview();
     }

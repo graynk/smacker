@@ -11,5 +11,6 @@ module space.graynk.sie {
     opens space.graynk.sie to javafx.fxml;
     exports space.graynk.sie;
     exports space.graynk.sie.gui;
+    exports space.graynk.sie.tools;
     opens space.graynk.sie.gui to javafx.fxml;
 }

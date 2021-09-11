@@ -2,9 +2,7 @@ package space.graynk.sie;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
@@ -72,7 +70,7 @@ public class SieController {
 
     private void saveImageToFile(File file) {
         //TODO get from tab
-        var renderedImage = tabInternalsController.getImage();
+        var renderedImage = tabInternalsController.getImageForSaving();
         worker.submit(() -> {
             try {
                 ImageIO.write(renderedImage, "png", file);
@@ -87,7 +85,7 @@ public class SieController {
         fileChooser.setTitle("Save image");
         fileChooser.setInitialDirectory(userDirectory);
         fileChooser.getExtensionFilters().addAll(filters);
-        File file = fileChooser.showSaveDialog(null);
+        File file = fileChooser.showSaveDialog(tabPane.getScene().getWindow());
         if (file == null) {
             return;
         }
