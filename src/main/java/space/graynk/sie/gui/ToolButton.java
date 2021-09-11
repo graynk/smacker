@@ -26,13 +26,39 @@ public class ToolButton extends ToggleButton {
     public void setToolType(ToolType toolType) {
         this.toolType = toolType;
         switch (toolType) {
-            case BRUSH -> this.tool = new Brush();
-            case BUCKET -> this.tool = new Bucket();
-            case PENCIL -> this.tool = new Pencil();
-            case MOVE -> this.tool = new Move();
-            case TEXT -> this.tool = new Text();
-            case SELECT -> this.tool = new Select();
-            case ROTATE -> this.tool = new Rotate();
+            case BRUSH:
+                this.tool = new Brush();
+                break;
+            case BUCKET:
+                this.tool = new Bucket();
+                break;
+            case PENCIL:
+                this.tool = new Pencil();
+                break;
+            case MOVE:
+                this.tool = new Move();
+                break;
+            case ERASER:
+                break;
+            case COLOR_PICKER:
+                break;
+            case DRAW_LINE:
+                break;
+            case DRAW_RECTANGLE:
+                break;
+            case DRAW_ROUNDED_RECTANGLE:
+                break;
+            case DRAW_OVAL:
+                break;
+            case TEXT:
+                this.tool = new Text();
+                break;
+            case SELECT:
+                this.tool = new Select();
+                break;
+            case ROTATE:
+                this.tool = new Rotate();
+                break;
         }
     }
 }

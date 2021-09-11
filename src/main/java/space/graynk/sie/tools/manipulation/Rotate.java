@@ -24,7 +24,7 @@ public class Rotate extends Tool {
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 //            context.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
         javafx.scene.transform.Rotate r = new javafx.scene.transform.Rotate(angle, canvas.getWidth() / 2, canvas.getHeight() / 2);
-        context.setImageSmoothing(false);
+//        context.setImageSmoothing(false);
 
         context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 //            context.rotate(1);

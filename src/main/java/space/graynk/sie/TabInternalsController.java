@@ -54,7 +54,7 @@ public class TabInternalsController {
         selectionModel.selectFirst();
 
         var context = backgroundCanvas.getGraphicsContext2D();
-        context.setImageSmoothing(false);
+//        context.setImageSmoothing(false);
         context.setFill(Color.WHITE);
         context.fillRect(0, 0, backgroundCanvas.getWidth(), backgroundCanvas.getHeight());
         this.activeLayer.getValue().updatePreview();

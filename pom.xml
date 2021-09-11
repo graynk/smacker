@@ -67,8 +67,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -94,29 +94,88 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>space.graynk.sie.SieApplication</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+          <plugin>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>gluonfx-maven-plugin</artifactId>
+            <version>1.0.5</version>
+            <configuration>
+              <reflectionList>
+                <list>javafx.fxml.FXMLLoader</list>
+                <list>javafx.scene.control.Button</list>
+                <list>javafx.scene.control.Label</list>
+                <list>javafx.scene.control.TabPane</list>
+                <list>javafx.scene.control.TextField</list>
+                <list>javafx.scene.image.ImageView</list>
+                <list>javafx.scene.control.TitledPane</list>
+                <list>javafx.scene.control.ScrollBar</list>
+                <list>javafx.scene.control.ListCell</list>
+                <list>javafx.scene.control.Menu</list>
+                <list>javafx.scene.control.MenuBar</list>
+                <list>javafx.scene.control.MenuItem</list>
+                <list>javafx.scene.layout.StackPane</list>
+                <list>javafx.scene.control.ScrollPane</list>
+                <list>javafx.scene.control.Tab</list>
+                <list>javafx.scene.layout.AnchorPane</list>
+                <list>javafx.scene.layout.HBox</list>
+                <list>javafx.scene.layout.Region</list>
+                <list>javafx.scene.layout.VBox</list>
+                <list>javafx.scene.control.Accordion</list>
+                <list>javafx.scene.control.ColorPicker</list>
+                <list>javafx.scene.paint.Color</list>
+                <list>javafx.embed.swing.SwingFXUtils</list>
+                <list>javafx.scene.SnapshotParameters</list>
+                <list>javafx.scene.canvas.Canvas</list>
+                <list>javafx.scene.image.WritableImage</list>
+                <list>javafx.scene.image.Image</list>
+                <list>javafx.scene.transform.Transform</list>
+                <list>javafx.scene.control.Tooltip</list>
+                <list>javafx.scene.control.Separator</list>
+                <list>javafx.scene.control.ToggleButton</list>
+                <list>javafx.scene.control.ToggleGroup</list>
+                <list>javafx.scene.control.ToolBar</list>
+                <list>javafx.scene.control.ListView</list>
+                <list>javafx.scene.layout.Pane</list>
+                <list>javafx.scene.layout.VBox</list>
+                <list>javafx.scene.control.SeparatorMenuItem</list>
+                <list>org.kordamp.ikonli.javafx.FontIcon</list>
+                <list>space.graynk.sie.SieController</list>
+                <list>space.graynk.sie.gui.ToolButton</list>
+                <list>space.graynk.sie.gui.ZoomableScrollPane</list>
+                <list>space.graynk.sie.gui.Layer</list>
+                <list>space.graynk.sie.gui.LayerCell</list>
+                <list>space.graynk.sie.tools.ToolType</list>
+                <list>space.graynk.sie.tools.Tool</list>
+                <list>space.graynk.sie.TabInternalsController</list>
+
+              </reflectionList>
+              <nativeImageArgs>
+                <nativeImageArg>--enable-http</nativeImageArg>
+                <nativeImageArg>--enable-https</nativeImageArg>
+
+                <!-- https://github.com/oracle/graal/issues/2719 -->
+                <nativeImageArg>
+                  --initialize-at-build-time=com.sun.org.apache.xml.internal.serializer.ToXMLStream,org.apache.commons.logging.impl.SLF4JLocationAwareLog
+                </nativeImageArg>
+              </nativeImageArgs>
+              <mainClass>space.graynk.sie.SieApplication</mainClass>
+            </configuration>
+          </plugin>
         </plugins>
     </build>
 </project>
