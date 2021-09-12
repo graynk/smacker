@@ -1,0 +1,209 @@
+[
+{
+  "name":"com.sun.glass.ui.CommonDialogs",
+  "methods":[{"name":"createFileChooserResult","parameterTypes":["java.lang.String[]","com.sun.glass.ui.CommonDialogs$ExtensionFilter[]","int"] }]
+},
+{
+  "name":"com.sun.glass.ui.CommonDialogs$ExtensionFilter",
+  "methods":[
+    {"name":"extensionsToArray","parameterTypes":[] }, 
+    {"name":"getDescription","parameterTypes":[] }
+  ]
+},
+{
+  "name":"com.sun.glass.ui.Screen[]"
+},
+{
+  "name":"com.sun.javafx.font.FontConfigManager$FcCompFont",
+  "fields":[
+    {"name":"allFonts"}, 
+    {"name":"fcName"}, 
+    {"name":"firstFont"}
+  ]
+},
+{
+  "name":"com.sun.javafx.font.FontConfigManager$FontConfigFont",
+  "fields":[
+    {"name":"familyName"}, 
+    {"name":"fontFile"}, 
+    {"name":"fullName"}, 
+    {"name":"styleStr"}
+  ],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.javafx.font.FontConfigManager$FontConfigFont[]"
+},
+{
+  "name":"com.sun.javafx.font.freetype.FT_Bitmap",
+  "fields":[
+    {"name":"buffer"}, 
+    {"name":"num_grays"}, 
+    {"name":"palette"}, 
+    {"name":"palette_mode"}, 
+    {"name":"pitch"}, 
+    {"name":"pixel_mode"}, 
+    {"name":"rows"}, 
+    {"name":"width"}
+  ]
+},
+{
+  "name":"com.sun.javafx.font.freetype.FT_GlyphSlotRec",
+  "fields":[
+    {"name":"advance_x"}, 
+    {"name":"advance_y"}, 
+    {"name":"bitmap"}, 
+    {"name":"bitmap_left"}, 
+    {"name":"bitmap_top"}, 
+    {"name":"format"}, 
+    {"name":"linearHoriAdvance"}, 
+    {"name":"linearVertAdvance"}, 
+    {"name":"metrics"}
+  ],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.javafx.font.freetype.FT_Glyph_Metrics",
+  "fields":[
+    {"name":"height"}, 
+    {"name":"horiAdvance"}, 
+    {"name":"horiBearingX"}, 
+    {"name":"horiBearingY"}, 
+    {"name":"vertAdvance"}, 
+    {"name":"vertBearingX"}, 
+    {"name":"vertBearingY"}, 
+    {"name":"width"}
+  ]
+},
+{
+  "name":"com.sun.javafx.iio.common.ImageLoaderImpl",
+  "methods":[{"name":"emitWarning","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.sun.javafx.iio.jpeg.JPEGImageLoader",
+  "methods":[
+    {"name":"setInputAttributes","parameterTypes":["int","int","int","int","int","byte[]"] }, 
+    {"name":"setOutputAttributes","parameterTypes":["int","int"] }, 
+    {"name":"updateImageProgress","parameterTypes":["int"] }
+  ]
+},
+{
+  "name":"java.awt.image.BufferedImage",
+  "fields":[
+    {"name":"colorModel"}, 
+    {"name":"imageType"}, 
+    {"name":"raster"}
+  ],
+  "methods":[
+    {"name":"getRGB","parameterTypes":["int","int","int","int","int[]","int","int"] }, 
+    {"name":"setRGB","parameterTypes":["int","int","int","int","int[]","int","int"] }
+  ]
+},
+{
+  "name":"java.awt.image.ColorModel",
+  "fields":[
+    {"name":"colorSpace"}, 
+    {"name":"colorSpaceType"}, 
+    {"name":"isAlphaPremultiplied"}, 
+    {"name":"is_sRGB"}, 
+    {"name":"nBits"}, 
+    {"name":"numComponents"}, 
+    {"name":"pData"}, 
+    {"name":"supportsAlpha"}, 
+    {"name":"transparency"}
+  ],
+  "methods":[{"name":"getRGBdefault","parameterTypes":[] }]
+},
+{
+  "name":"java.awt.image.Raster",
+  "fields":[
+    {"name":"dataBuffer"}, 
+    {"name":"height"}, 
+    {"name":"minX"}, 
+    {"name":"minY"}, 
+    {"name":"numBands"}, 
+    {"name":"numDataElements"}, 
+    {"name":"sampleModel"}, 
+    {"name":"sampleModelTranslateX"}, 
+    {"name":"sampleModelTranslateY"}, 
+    {"name":"width"}
+  ]
+},
+{
+  "name":"java.awt.image.SampleModel",
+  "fields":[
+    {"name":"height"}, 
+    {"name":"width"}
+  ],
+  "methods":[
+    {"name":"getPixels","parameterTypes":["int","int","int","int","int[]","java.awt.image.DataBuffer"] }, 
+    {"name":"setPixels","parameterTypes":["int","int","int","int","int[]","java.awt.image.DataBuffer"] }
+  ]
+},
+{
+  "name":"java.awt.image.SinglePixelPackedSampleModel",
+  "fields":[
+    {"name":"bitMasks"}, 
+    {"name":"bitOffsets"}, 
+    {"name":"bitSizes"}, 
+    {"name":"maxBitSize"}
+  ]
+},
+{
+  "name":"java.io.InputStream",
+  "methods":[
+    {"name":"read","parameterTypes":["byte[]","int","int"] }, 
+    {"name":"skip","parameterTypes":["long"] }
+  ]
+},
+{
+  "name":"java.lang.ClassLoader",
+  "methods":[
+    {"name":"getPlatformClassLoader","parameterTypes":[] }, 
+    {"name":"loadClass","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"java.lang.String",
+  "methods":[{"name":"toLowerCase","parameterTypes":["java.util.Locale"] }]
+},
+{
+  "name":"java.lang.String[]"
+},
+{
+  "name":"java.util.ArrayList",
+  "methods":[
+    {"name":"<init>","parameterTypes":["int"] }, 
+    {"name":"add","parameterTypes":["java.lang.Object"] }
+  ]
+},
+{
+  "name":"java.util.HashMap",
+  "methods":[
+    {"name":"containsKey","parameterTypes":["java.lang.Object"] }, 
+    {"name":"get","parameterTypes":["java.lang.Object"] }, 
+    {"name":"put","parameterTypes":["java.lang.Object","java.lang.Object"] }
+  ]
+},
+{
+  "name":"jdk.internal.loader.ClassLoaders$PlatformClassLoader"
+},
+{
+  "name":"org.graalvm.nativebridge.jni.JNIExceptionWrapperEntryPoints",
+  "methods":[{"name":"getClassName","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"sun.awt.image.IntegerComponentRaster",
+  "fields":[
+    {"name":"data"}, 
+    {"name":"dataOffsets"}, 
+    {"name":"pixelStride"}, 
+    {"name":"scanlineStride"}, 
+    {"name":"type"}
+  ]
+},
+{
+  "name":"sun.java2d.Disposer",
+  "methods":[{"name":"addRecord","parameterTypes":["java.lang.Object","long","long"] }]
+}
+]

@@ -1,0 +1,465 @@
+[
+{
+  "name":"com.sun.glass.ui.gtk.GtkPlatformFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.javafx.font.freetype.FTFactory",
+  "methods":[{"name":"getFactory","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.javafx.reflect.Trampoline",
+  "methods":[{"name":"invoke","parameterTypes":["java.lang.reflect.Method","java.lang.Object","java.lang.Object[]"] }]
+},
+{
+  "name":"com.sun.javafx.tk.quantum.QuantumToolkit",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.prism.GraphicsPipeline",
+  "methods":[
+    {"name":"getFontFactory","parameterTypes":[] }, 
+    {"name":"getPipeline","parameterTypes":[] }
+  ]
+},
+{
+  "name":"com.sun.prism.es2.ES2Pipeline",
+  "methods":[{"name":"getInstance","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.prism.es2.X11GLFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.prism.shader.DrawPgram_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.DrawRoundRect_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillCircle_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillPgram_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillPgram_ImagePattern_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillPgram_LinearGradient_PAD_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillRoundRect_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillRoundRect_LinearGradient_PAD_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.Mask_TextureSuper_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.Solid_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.Solid_TextureRGB_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.Texture_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.Texture_LinearGradient_PAD_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.es2.ES2ShaderSource",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.PrRenderer",
+  "methods":[{"name":"createRenderer","parameterTypes":["com.sun.scenario.effect.FilterContext"] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.ps.PPSLinearConvolveShadowPeer",
+  "methods":[{"name":"<init>","parameterTypes":["com.sun.scenario.effect.FilterContext","com.sun.scenario.effect.impl.Renderer","java.lang.String"] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.ps.PPSRenderer",
+  "methods":[{"name":"createRenderer","parameterTypes":["com.sun.scenario.effect.FilterContext"] }]
+},
+{
+  "name":"com.sun.xml.internal.stream.XMLInputFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Character",
+  "methods":[{"name":"isIdeographic","parameterTypes":["int"] }]
+},
+{
+  "name":"java.lang.Class",
+  "methods":[{"name":"getModule","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Module",
+  "methods":[{"name":"getResourceAsStream","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.nio.ByteBuffer",
+  "methods":[{"name":"order","parameterTypes":["java.nio.ByteOrder"] }]
+},
+{
+  "name":"java.nio.ByteOrder",
+  "methods":[{"name":"nativeOrder","parameterTypes":[] }]
+},
+{
+  "name":"java.security.MessageDigestSpi"
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"javafx.fxml.FXMLLoader"
+},
+{
+  "name":"javafx.geometry.Insets",
+  "allPublicMethods":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"javafx.geometry.Orientation",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"javafx.geometry.Pos",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"javafx.scene.Camera"
+},
+{
+  "name":"javafx.scene.Group"
+},
+{
+  "name":"javafx.scene.Node",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.ParallelCamera"
+},
+{
+  "name":"javafx.scene.Parent",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.Scene"
+},
+{
+  "name":"javafx.scene.canvas.Canvas",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.ButtonBase",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.ColorPicker",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.ComboBoxBase",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.ContentDisplay",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"javafx.scene.control.Control",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.CustomMenuItem",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.Label",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.Labeled",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.ListView",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.Menu",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.MenuBar",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.MenuItem",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.PopupControl",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.ScrollPane",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.Separator",
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.SeparatorMenuItem",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.Tab",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.TabPane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.TitledPane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.ToggleButton",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.ToggleGroup",
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.ToolBar",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.control.Tooltip",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.effect.Effect"
+},
+{
+  "name":"javafx.scene.image.Image"
+},
+{
+  "name":"javafx.scene.image.ImageView"
+},
+{
+  "name":"javafx.scene.layout.BorderPane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"getAlignment","parameterTypes":["javafx.scene.Node"] }, 
+    {"name":"setAlignment","parameterTypes":["javafx.scene.Node","javafx.geometry.Pos"] }
+  ]
+},
+{
+  "name":"javafx.scene.layout.HBox",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"getHgrow","parameterTypes":["javafx.scene.Node"] }, 
+    {"name":"setHgrow","parameterTypes":["javafx.scene.Node","javafx.scene.layout.Priority"] }
+  ]
+},
+{
+  "name":"javafx.scene.layout.Pane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.layout.Priority",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"javafx.scene.layout.Region",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.layout.StackPane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javafx.scene.paint.Color",
+  "allPublicMethods":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"javafx.scene.shape.LineTo"
+},
+{
+  "name":"javafx.scene.shape.MoveTo"
+},
+{
+  "name":"javafx.scene.shape.Path"
+},
+{
+  "name":"javafx.scene.shape.PathElement"
+},
+{
+  "name":"javafx.scene.shape.Rectangle"
+},
+{
+  "name":"javafx.scene.shape.SVGPath"
+},
+{
+  "name":"javafx.scene.shape.Shape",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.text.Font"
+},
+{
+  "name":"javafx.scene.text.Text",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.stage.PopupWindow",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javafx.stage.Stage"
+},
+{
+  "name":"javafx.stage.Window",
+  "allDeclaredMethods":true
+},
+{
+  "name":"javax.imageio.spi.ImageReaderSpi"
+},
+{
+  "name":"javax.imageio.spi.ImageReaderWriterSpi",
+  "methods":[
+    {"name":"getFileSuffixes","parameterTypes":[] }, 
+    {"name":"getFormatNames","parameterTypes":[] }, 
+    {"name":"getMIMETypes","parameterTypes":[] }
+  ]
+},
+{
+  "name":"javax.imageio.spi.ImageWriterSpi"
+},
+{
+  "name":"org.kordamp.ikonli.javafx.FontIcon",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"space.graynk.sie.SieApplication",
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"main","parameterTypes":["java.lang.String[]"] }
+  ]
+},
+{
+  "name":"space.graynk.sie.SieController",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"space.graynk.sie.TabInternalsController",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"space.graynk.sie.gui.ToolButton",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"space.graynk.sie.gui.ZoomableScrollPane",
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"space.graynk.sie.tools.ToolType",
+  "fields":[
+    {"name":"BRUSH"}, 
+    {"name":"BUCKET"}, 
+    {"name":"COLOR_PICKER"}, 
+    {"name":"DRAW_LINE"}, 
+    {"name":"DRAW_OVAL"}, 
+    {"name":"DRAW_RECTANGLE"}, 
+    {"name":"DRAW_ROUNDED_RECTANGLE"}, 
+    {"name":"ERASER"}, 
+    {"name":"MOVE"}, 
+    {"name":"PENCIL"}, 
+    {"name":"SELECT"}, 
+    {"name":"TEXT"}
+  ]
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}]
+},
+{
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+}
+]

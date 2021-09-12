@@ -97,7 +97,7 @@ public class SieController {
         fileChooser.setTitle("Open image");
         fileChooser.setInitialDirectory(userDirectory);
         fileChooser.getExtensionFilters().addAll(filters);
-        File file = fileChooser.showOpenDialog(null);
+        File file = fileChooser.showOpenDialog(tabPane.getScene().getWindow());
         if (file == null) {
             return;
         }
