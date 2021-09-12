@@ -115,15 +115,6 @@
             <artifactId>gluonfx-maven-plugin</artifactId>
             <version>1.0.5</version>
             <configuration>
-              <nativeImageArgs>
-                <nativeImageArg>--enable-http</nativeImageArg>
-                <nativeImageArg>--enable-https</nativeImageArg>
-
-                <!-- https://github.com/oracle/graal/issues/2719 -->
-                <nativeImageArg>
-                  --initialize-at-build-time=com.sun.org.apache.xml.internal.serializer.ToXMLStream,org.apache.commons.logging.impl.SLF4JLocationAwareLog
-                </nativeImageArg>
-              </nativeImageArgs>
               <mainClass>space.graynk.sie.SieApplication</mainClass>
             </configuration>
           </plugin>
