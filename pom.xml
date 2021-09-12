@@ -116,6 +116,8 @@
             <version>1.0.5</version>
             <configuration>
               <mainClass>space.graynk.sie.SieApplication</mainClass>
+                <javaStaticSdkVersion>11.0.12</javaStaticSdkVersion>
+                <javafxStaticSdkVersion>17-ea+11</javafxStaticSdkVersion>
             </configuration>
           </plugin>
         </plugins>
