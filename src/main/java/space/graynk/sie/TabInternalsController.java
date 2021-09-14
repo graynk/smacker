@@ -3,6 +3,8 @@ package space.graynk.sie;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -48,7 +50,7 @@ public class TabInternalsController {
     private ReadOnlyObjectProperty<Layer> activeLayer;
     private ObjectProperty<Color> activeColor;
     private ObjectProperty<Tool> activeTool;
-    public ReadOnlyIntegerProperty activeLayerIndexProperty;
+    public ReadOnlyBooleanProperty backgroundSelected;
     private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
     public ReadOnlyIntegerProperty layersCountProperty;
 
@@ -58,7 +60,15 @@ public class TabInternalsController {
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
         selectionModel = layers.getSelectionModel();
-        activeLayerIndexProperty = selectionModel.selectedIndexProperty();
+        var backgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
+        backgroundSelectedWrapper.bind(
+                selectionModel.selectedIndexProperty()
+                        .isEqualTo(
+                                layersCountProperty.subtract(1
+                                )
+                        )
+        );
+        backgroundSelected = backgroundSelectedWrapper.getReadOnlyProperty();
         activeLayer = selectionModel.selectedItemProperty();
         activeColor = colorPicker.valueProperty();
 

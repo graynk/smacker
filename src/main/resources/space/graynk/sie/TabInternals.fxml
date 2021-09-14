@@ -17,7 +17,8 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import space.graynk.sie.gui.ToolButton?>
 <?import space.graynk.sie.tools.ToolType?>
-<BorderPane xmlns="http://javafx.com/javafx/16"
+
+<BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
   <left>

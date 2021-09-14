@@ -2,6 +2,7 @@ package space.graynk.sie;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +42,7 @@ public class SieController {
     private MenuItem mergeLayerMenu;
     @FXML
     private TabInternalsController defaultTabController;
-    private ObjectProperty<TabInternalsController> activeTabController;
+    private TabInternalsController activeTabController;
     private final Map<Tab, TabInternalsController> controllerMap = new HashMap<>(16);
 
     private final File userDirectory;
@@ -63,23 +64,23 @@ public class SieController {
 
     @FXML
     private void initialize() {
-        activeTabController = new SimpleObjectProperty<>(defaultTabController);
-        controllerMap.put(tabPane.getTabs().get(0), activeTabController.getValue());
-        activeTabController.getValue().newImage();
-        var isZeroBinding = this.activeTabController.getValue().activeLayerIndexProperty.isEqualTo(this.activeTabController.getValue().layersCountProperty.subtract(1));
-        deleteLayerMenu.disableProperty().bind(isZeroBinding);
-        mergeLayerMenu.disableProperty().bind(isZeroBinding);
+        activeTabController = defaultTabController;
+        controllerMap.put(tabPane.getTabs().get(0), activeTabController);
+        activeTabController.newImage();
+        var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
+        activeTabBackgroundSelectedWrapper.bind(activeTabController.backgroundSelected);
+        deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
+        mergeLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
         tabPane.getSelectionModel()
                 .selectedItemProperty()
                 .addListener(
                         (observable, oldValue, newValue) ->
                         {
-//                            deleteLayerMenu.disableProperty().unbind(); // TODO: not very pretty, but...
-//                            mergeLayerMenu.disableProperty().unbind();
-                            activeTabController.setValue(controllerMap.get(newValue));
-//                            var isZeroBindingt = this.activeTabController.activeLayerIndex.isEqualTo(0);
-//                            deleteLayerMenu.disableProperty().bind(isZeroBindingt);
-//                            mergeLayerMenu.disableProperty().bind(isZeroBindingt);
+                            // not very pretty, but...
+                            activeTabBackgroundSelectedWrapper.unbind();
+                            activeTabController = controllerMap.get(newValue);
+                            if (activeTabController == null) return;
+                            activeTabBackgroundSelectedWrapper.bind(activeTabController.backgroundSelected);
                         }
                 );
     }
@@ -91,6 +92,7 @@ public class SieController {
                 Parent tabInternals = fxmlLoader.load();
                 TabInternalsController tabInternalsController = fxmlLoader.getController();
                 var tab = new Tab(name, tabInternals);
+                tab.setClosable(true);
                 controllerMap.put(tab, tabInternalsController);
                 tab.setOnClosed(event -> controllerMap.remove(tab));
                 tabPane.getTabs().add(tab);
@@ -104,11 +106,11 @@ public class SieController {
     private void loadImageFromFile(File file) {
         var image = new Image(file.toURI().toString());
         createNewTab(file.getName());
-        Platform.runLater(() -> activeTabController.getValue().drawImage(image));
+        Platform.runLater(() -> activeTabController.drawImage(image));
     }
 
     private void saveImageToFile(File file) {
-        var renderedImage = activeTabController.getValue().getImageForSaving();
+        var renderedImage = activeTabController.getImageForSaving();
         worker.submit(() -> {
             try {
                 ImageIO.write(renderedImage, "png", file);
@@ -151,22 +153,22 @@ public class SieController {
     private void newFile() {
         worker.submit(() -> {
             createNewTab("New Image");
-            Platform.runLater(() -> activeTabController.getValue().newImage());
+            Platform.runLater(() -> activeTabController.newImage());
         });
     }
 
     @FXML
     private void addLayer() {
-        activeTabController.getValue().addLayer();
+        activeTabController.addLayer();
     }
 
     @FXML
     private void deleteLayer() {
-        activeTabController.getValue().deleteActiveLayer();
+        activeTabController.deleteActiveLayer();
     }
 
     @FXML
     private void mergeDown() {
-        activeTabController.getValue().mergeDownActiveLayer();
+        activeTabController.mergeDownActiveLayer();
     }
 }
