@@ -3,7 +3,6 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>

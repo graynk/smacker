@@ -54,15 +54,15 @@
             prefHeight="900">
   <center>
     <TabPane fx:id="tabPane">
-      <Tab text="Image Tab">
-        <fx:include fx:id="tabInternals" source="TabInternals.fxml"/>
+      <Tab text="New Image">
+        <fx:include fx:id="defaultTab" source="TabInternals.fxml"/>
       </Tab>
     </TabPane>
   </center>
   <top>
     <MenuBar BorderPane.alignment="CENTER">
       <Menu mnemonicParsing="false" text="File">
-        <MenuItem mnemonicParsing="false" text="New">
+        <MenuItem mnemonicParsing="false" text="New" onAction="#newFile">
           <graphic>
             <FontIcon iconLiteral="fltral-document-20" iconSize="18"/>
           </graphic>
@@ -132,9 +132,9 @@
       </Menu>
       <Menu mnemonicParsing="false" text="Layers">
         <MenuItem mnemonicParsing="false" text="Add New Layer" onAction="#addLayer"/>
-        <MenuItem mnemonicParsing="false" text="Delete Layer" onAction="#deleteLayer"/>
+        <MenuItem fx:id="deleteLayerMenu" mnemonicParsing="false" text="Delete Layer" onAction="#deleteLayer"/>
         <MenuItem mnemonicParsing="false" text="Duplicate Layer"/>
-        <MenuItem mnemonicParsing="false" text="Merge Layer Down" onAction="#mergeDown"/>
+        <MenuItem fx:id="mergeLayerMenu" mnemonicParsing="false" text="Merge Layer Down" onAction="#mergeDown"/>
         <MenuItem mnemonicParsing="false" text="Flip Horizontal"/>
         <MenuItem mnemonicParsing="false" text="Flip Vertical"/>
       </Menu>

@@ -68,9 +68,17 @@ public class Layer {
         var biggestSide = Math.max(width, height);
         var scale = previewSize / biggestSide;
         spa.setTransform(Transform.scale(scale, scale));
-        var image = new WritableImage(previewSize, previewSize);
+        var image = new WritableImage((int)(width*scale), (int)(height*scale));
         canvas.snapshot(spa, image);
         preview.setValue(image);
+    }
+
+    public Image getImage() {
+        var width = canvas.getWidth();
+        var height = canvas.getHeight();
+        var image = new WritableImage((int) width, (int) height);
+        canvas.snapshot(null, image);
+        return image;
     }
 
     public Canvas getCanvas() {

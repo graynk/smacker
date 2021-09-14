@@ -1,8 +1,13 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -43,23 +48,38 @@ public class TabInternalsController {
     private ReadOnlyObjectProperty<Layer> activeLayer;
     private ObjectProperty<Color> activeColor;
     private ObjectProperty<Tool> activeTool;
+    public ReadOnlyIntegerProperty activeLayerIndexProperty;
+    private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
+    public ReadOnlyIntegerProperty layersCountProperty;
 
     @FXML
     private void initialize() {
+        var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
+        layerCountWrapper.bind(layersCount);
+        layersCountProperty = layerCountWrapper.getReadOnlyProperty();
         selectionModel = layers.getSelectionModel();
+        activeLayerIndexProperty = selectionModel.selectedIndexProperty();
         activeLayer = selectionModel.selectedItemProperty();
         activeColor = colorPicker.valueProperty();
 
+        layers.getItems().addListener((ListChangeListener<Layer>) c -> layersCount.set(layers.getItems().size()));
         layers.getItems().add(new Layer("Background", backgroundCanvas));
         selectionModel.selectFirst();
+        layers.setCellFactory(listView -> new LayerCell());
+    }
 
+    public void newImage() {
+        this.newImage(500, 500);
+    }
+
+    public void newImage(int width, int height) {
+        backgroundCanvas.setWidth(width);
+        backgroundCanvas.setHeight(height);
         var context = backgroundCanvas.getGraphicsContext2D();
 //        context.setImageSmoothing(false);
         context.setFill(Color.WHITE);
-        context.fillRect(0, 0, backgroundCanvas.getWidth(), backgroundCanvas.getHeight());
+        context.fillRect(0, 0, width, height);
         this.activeLayer.getValue().updatePreview();
-
-        layers.setCellFactory(listView -> new LayerCell());
     }
 
     public void drawImage(Image image) {
@@ -112,12 +132,20 @@ public class TabInternalsController {
 
     public void deleteActiveLayer() {
         var selectedIndex = layers.getSelectionModel().getSelectedIndex();
-        if (selectedIndex == 0) layers.getSelectionModel().selectNext();
-        else layers.getSelectionModel().selectPrevious();
+        if (selectedIndex == layers.getItems().size() - 1) return;
+        if (selectedIndex == 0) selectionModel.selectNext();
+        else selectionModel.selectPrevious();
         layers.getItems().remove(selectedIndex);
+        var canvases = stackPane.getChildren();
+        canvases.remove(canvases.size() - selectedIndex - 1);
     }
 
     public void mergeDownActiveLayer() {
-
+        var selectedIndex = selectionModel.getSelectedIndex();
+        if (selectedIndex == layers.getItems().size() - 1) return;
+        var image = activeLayer.getValue().getImage();
+        var prevLayer = layers.getItems().get(selectedIndex+1);
+        prevLayer.drawImage(image);
+        this.deleteActiveLayer();
     }
 }
