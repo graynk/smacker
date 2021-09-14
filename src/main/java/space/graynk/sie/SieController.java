@@ -47,21 +47,6 @@ public class SieController {
         userDirectory = home;
     }
 
-//    @FXML
-//    private void initialize()  {
-//        //TODO: for fast testing
-//        worker.submit(() -> {
-//            try {
-//                Thread.sleep(200);
-////                var file = new File("/home/graynk/Pictures/gzwuspaspm641.png");
-//                var file = new File("/home/graynk/Pictures/godot.png");
-//                loadImageFromFile(file);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//    }
-
     private void loadImageFromFile(File file) {
         var image = new Image(file.toURI().toString());
         //TODO open tab
