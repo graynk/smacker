@@ -213,9 +213,12 @@
     <ZoomableScrollPane xmlns="http://javafx.com/javafx"
                         xmlns:fx="http://javafx.com/fxml"
                         fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
-      <StackPane fx:id="stackPane">
-        <Canvas fx:id="backgroundCanvas" height="500.0" width="500.0"
-                onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
+      <StackPane>
+        <Canvas fx:id="transparencyCanvas"/>
+        <StackPane fx:id="stackPane">
+          <Canvas fx:id="backgroundCanvas" height="300.0" width="300.0"
+                  onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
+        </StackPane>
       </StackPane>
     </ZoomableScrollPane>
   </center>

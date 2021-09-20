@@ -66,7 +66,7 @@ public class SieController {
     private void initialize() {
         activeTabController = defaultTabController;
         controllerMap.put(tabPane.getTabs().get(0), activeTabController);
-        activeTabController.newImage();
+        activeTabController.newImage(true);
         var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
         activeTabBackgroundSelectedWrapper.bind(activeTabController.backgroundSelected);
         deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
@@ -153,7 +153,7 @@ public class SieController {
     private void newFile() {
         worker.submit(() -> {
             createNewTab("New Image");
-            Platform.runLater(() -> activeTabController.newImage());
+            Platform.runLater(() -> activeTabController.newImage(true));
         });
     }
 

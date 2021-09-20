@@ -9,6 +9,8 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -24,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Transform;
+import javafx.stage.Screen;
 import space.graynk.sie.gui.LayerCell;
 import space.graynk.sie.gui.Layer;
 import space.graynk.sie.gui.ToolButton;
@@ -44,6 +47,8 @@ public class TabInternalsController {
     @FXML
     private StackPane stackPane;
     @FXML
+    private Canvas transparencyCanvas;
+    @FXML
     private Canvas backgroundCanvas;
 
     private SelectionModel<Layer> selectionModel;
@@ -56,6 +61,17 @@ public class TabInternalsController {
 
     @FXML
     private void initialize() {
+        transparencyCanvas.widthProperty().bind(backgroundCanvas.widthProperty());
+        transparencyCanvas.heightProperty().bind(backgroundCanvas.heightProperty());
+        var transparencyRedrawHandler = new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                drawTransparencyCheckerboard();
+            }
+        };
+        // TODO: double redraw is awful
+        transparencyCanvas.widthProperty().addListener(transparencyRedrawHandler);
+        transparencyCanvas.heightProperty().addListener(transparencyRedrawHandler);
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -78,17 +94,53 @@ public class TabInternalsController {
         layers.setCellFactory(listView -> new LayerCell());
     }
 
-    public void newImage() {
-        this.newImage(500, 500);
+    private Screen getCurrentScreen() {
+        var scene = transparencyCanvas.getScene();
+        // on initialize Scene is null, but it will launch on primary screen anyway
+        if (scene == null) {
+            return Screen.getPrimary();
+        }
+
+        var window = transparencyCanvas.getScene().getWindow();
+        return Screen.getScreensForRectangle(
+                window.getX(),
+                window.getY(),
+                window.getWidth(),
+                window.getHeight()
+        ).get(0);
     }
 
-    public void newImage(int width, int height) {
+    private void drawTransparencyCheckerboard() {
+        var screen = getCurrentScreen();
+        var width = transparencyCanvas.getWidth();
+        var height = transparencyCanvas.getHeight();
+        var squareSize = (int) Math.round(screen.getBounds().getWidth() * 0.01);
+        var context = transparencyCanvas.getGraphicsContext2D();
+        context.setFill(Color.WHITE);
+        context.fillRect(0, 0, width, height);
+        context.setFill(new Color(0.75, 0.75, 0.75, 1));
+        // TODO: This should be a shader tbh, but JSL is a pain to set up and not documented at all
+        for (var x = 0; x < width; x += squareSize) {
+            var isOddRow = x % (2*squareSize) != 0;
+            for (var y = isOddRow ? squareSize : 0 ; y < height; y += squareSize * 2) {
+                context.fillRect(x, y, squareSize, squareSize);
+            }
+        }
+    }
+
+    public void newImage(boolean transparent) {
+        this.newImage(500, 500, transparent);
+    }
+
+    public void newImage(int width, int height, boolean transparent) {
         backgroundCanvas.setWidth(width);
         backgroundCanvas.setHeight(height);
         var context = backgroundCanvas.getGraphicsContext2D();
 //        context.setImageSmoothing(false);
-        context.setFill(Color.WHITE);
-        context.fillRect(0, 0, width, height);
+        if (!transparent) {
+            context.setFill(Color.WHITE);
+            context.fillRect(0, 0, width, height);
+        }
         this.activeLayer.getValue().updatePreview();
     }
 
@@ -128,6 +180,7 @@ public class TabInternalsController {
         final SnapshotParameters spa = new SnapshotParameters();
         var scale = 1 / scrollPane.scaleValue;
         spa.setTransform(Transform.scale(scale, scale));
+        spa.setFill(Color.TRANSPARENT);
         var image = new WritableImage((int) stackPane.getWidth(), (int) stackPane.getHeight());
         stackPane.snapshot(spa, image);
         return SwingFXUtils.fromFXImage(image, null);
