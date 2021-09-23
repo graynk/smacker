@@ -5,6 +5,7 @@ import space.graynk.sie.tools.Tool;
 import space.graynk.sie.tools.ToolType;
 import space.graynk.sie.tools.drawing.Brush;
 import space.graynk.sie.tools.drawing.Bucket;
+import space.graynk.sie.tools.drawing.Eraser;
 import space.graynk.sie.tools.drawing.Pencil;
 import space.graynk.sie.tools.drawing.Text;
 import space.graynk.sie.tools.manipulation.Move;
@@ -39,6 +40,7 @@ public class ToolButton extends ToggleButton {
                 this.tool = new Move();
                 break;
             case ERASER:
+                this.tool = new Eraser();
                 break;
             case COLOR_PICKER:
                 break;

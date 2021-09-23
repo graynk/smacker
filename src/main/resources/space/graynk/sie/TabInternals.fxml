@@ -18,6 +18,9 @@
 <?import space.graynk.sie.gui.ToolButton?>
 <?import space.graynk.sie.tools.ToolType?>
 
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
@@ -73,7 +76,7 @@
           </ToolButton>
           <ToolButton accessibleText="Eraser"
                         contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
+                        mnemonicParsing="false" toggleGroup="$tools">
             <graphic>
               <FontIcon iconLiteral="fltral-eraser-20" iconSize="24"/>
             </graphic>
@@ -201,6 +204,9 @@
           </ToolButton>
         </ToolBar>
         <Separator/>
+        <VBox fx:id="toolParameters">
+          <Spinner fx:id="brushSizeSpinner"/>
+        </VBox>
         <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="95.0">
           <value>
             <Color/>
@@ -210,15 +216,14 @@
     </TitledPane>
   </left>
   <center>
-    <ZoomableScrollPane xmlns="http://javafx.com/javafx"
-                        xmlns:fx="http://javafx.com/fxml"
-                        fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
+    <ZoomableScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
       <StackPane>
         <Canvas fx:id="transparencyCanvas"/>
         <StackPane fx:id="stackPane">
           <Canvas fx:id="backgroundCanvas" height="300.0" width="300.0"
                   onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
         </StackPane>
+        <Canvas fx:id="toolCanvas"/>
       </StackPane>
     </ZoomableScrollPane>
   </center>

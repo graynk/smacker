@@ -66,7 +66,7 @@ public class SieController {
     private void initialize() {
         activeTabController = defaultTabController;
         controllerMap.put(tabPane.getTabs().get(0), activeTabController);
-        activeTabController.newImage(true);
+        activeTabController.newImage(false);
         var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
         activeTabBackgroundSelectedWrapper.bind(activeTabController.backgroundSelected);
         deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());

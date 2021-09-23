@@ -19,6 +19,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionModel;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -32,6 +34,7 @@ import space.graynk.sie.gui.Layer;
 import space.graynk.sie.gui.ToolButton;
 import space.graynk.sie.gui.ZoomableScrollPane;
 import space.graynk.sie.tools.Tool;
+import space.graynk.sie.tools.drawing.DrawingTool;
 
 import java.awt.image.BufferedImage;
 
@@ -50,6 +53,8 @@ public class TabInternalsController {
     private Canvas transparencyCanvas;
     @FXML
     private Canvas backgroundCanvas;
+    @FXML
+    private Spinner<Integer> brushSizeSpinner;
 
     private SelectionModel<Layer> selectionModel;
     private ReadOnlyObjectProperty<Layer> activeLayer;
@@ -61,6 +66,7 @@ public class TabInternalsController {
 
     @FXML
     private void initialize() {
+        brushSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 4));
         transparencyCanvas.widthProperty().bind(backgroundCanvas.widthProperty());
         transparencyCanvas.heightProperty().bind(backgroundCanvas.heightProperty());
         var transparencyRedrawHandler = new ChangeListener<Number>() {
@@ -157,6 +163,9 @@ public class TabInternalsController {
     private void onMousePressed(MouseEvent event) {
         // TODO do it with property binding and invalidation listeners
         var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        if (tool instanceof DrawingTool) {
+            ((DrawingTool) tool).setRadius(brushSizeSpinner.getValue());
+        }
         var canvas = activeLayer.getValue().getCanvas();
         canvas.getGraphicsContext2D().setFill(activeColor.getValue());
         canvas.getGraphicsContext2D().setStroke(activeColor.getValue());
