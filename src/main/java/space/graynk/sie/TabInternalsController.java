@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -53,6 +54,8 @@ public class TabInternalsController {
     private Canvas transparencyCanvas;
     @FXML
     private Canvas backgroundCanvas;
+    @FXML
+    private Canvas toolCanvas;
     @FXML
     private Spinner<Integer> brushSizeSpinner;
 
@@ -183,6 +186,21 @@ public class TabInternalsController {
         var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
         tool.handleDragEnd(event);
         activeLayer.getValue().updatePreview();
+    }
+
+    @FXML
+    private void onToolEntered(MouseEvent event) {
+        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        if (tool instanceof DrawingTool) {
+            ((DrawingTool) tool).setRadius(brushSizeSpinner.getValue());
+        }
+        tool.handleToolEnter(event, toolCanvas);
+    }
+
+    @FXML
+    private void onToolExited(MouseEvent event) {
+        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        tool.handleToolLeave(event, toolCanvas);
     }
 
     public BufferedImage getImageForSaving() {

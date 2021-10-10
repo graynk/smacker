@@ -33,8 +33,4 @@ public class Rotate extends Tool {
 //            context.restore();
     }
 
-    @Override
-    public void handleDragEnd(MouseEvent event) {
-
-    }
 }

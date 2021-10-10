@@ -19,7 +19,6 @@
 <?import space.graynk.sie.tools.ToolType?>
 
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -223,7 +222,7 @@
           <Canvas fx:id="backgroundCanvas" height="300.0" width="300.0"
                   onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
         </StackPane>
-        <Canvas fx:id="toolCanvas"/>
+        <Canvas fx:id="toolCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="500" height="500"/>
       </StackPane>
     </ZoomableScrollPane>
   </center>

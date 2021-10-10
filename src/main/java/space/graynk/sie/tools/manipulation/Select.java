@@ -5,18 +5,5 @@ import javafx.scene.input.MouseEvent;
 import space.graynk.sie.tools.Tool;
 
 public class Select extends Tool {
-    @Override
-    public void handleDragStart(MouseEvent event, Canvas canvas) {
 
-    }
-
-    @Override
-    public void handleDrag(MouseEvent event) {
-
-    }
-
-    @Override
-    public void handleDragEnd(MouseEvent event) {
-
-    }
 }

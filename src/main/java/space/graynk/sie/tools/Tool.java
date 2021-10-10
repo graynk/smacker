@@ -19,4 +19,7 @@ public abstract class Tool {
     public void handleDragEnd(MouseEvent event) {
 
     }
+
+    public void handleToolEnter(MouseEvent event, Canvas toolCanvas) {}
+    public void handleToolLeave(MouseEvent event, Canvas toolCanvas) {}
 }
