@@ -1,86 +1,66 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
-import javafx.stage.Screen;
-import space.graynk.sie.gui.LayerCell;
 import space.graynk.sie.gui.Layer;
-import space.graynk.sie.gui.ToolButton;
+import space.graynk.sie.gui.LayerCell;
 import space.graynk.sie.gui.ZoomableScrollPane;
 import space.graynk.sie.tools.Tool;
-import space.graynk.sie.tools.drawing.DrawingTool;
+import space.graynk.sie.tools.manipulation.Select;
 
 import java.awt.image.BufferedImage;
 
 public class TabInternalsController {
-    @FXML
-    private ToggleGroup tools;
-    @FXML
-    private ColorPicker colorPicker;
-    @FXML
-    private ListView<Layer> layers;
+    private final ListView<Layer> layers = new ListView<>();
     @FXML
     private ZoomableScrollPane scrollPane;
     @FXML
     private StackPane stackPane;
     @FXML
-    private Canvas transparencyCanvas;
-    @FXML
     private Canvas backgroundCanvas;
     @FXML
     private Canvas toolCanvas;
     @FXML
-    private Spinner<Integer> brushSizeSpinner;
+    private Spinner<Integer> textHeightSpinner;
+    @FXML
+    private Spinner<Integer> rowsSpinner;
+    @FXML
+    private ScrollPane stickerPane;
+    @FXML
+    private StackPane stackStickerPane;
+    @FXML
+    private Canvas backgroundStickerCanvas;
+    @FXML
+    private Canvas textCanvas;
 
     private SelectionModel<Layer> selectionModel;
     private ReadOnlyObjectProperty<Layer> activeLayer;
-    private ObjectProperty<Color> activeColor;
     private ObjectProperty<Tool> activeTool;
     public ReadOnlyBooleanProperty backgroundSelected;
     private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
     public ReadOnlyIntegerProperty layersCountProperty;
+    private double offsetX;
+    private double offsetY;
+    private double scale = 0.5;
 
     @FXML
     private void initialize() {
-        brushSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 4));
-        transparencyCanvas.widthProperty().bind(backgroundCanvas.widthProperty());
-        transparencyCanvas.heightProperty().bind(backgroundCanvas.heightProperty());
-        var transparencyRedrawHandler = new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                drawTransparencyCheckerboard();
-            }
-        };
-        // TODO: double redraw is awful
-        transparencyCanvas.widthProperty().addListener(transparencyRedrawHandler);
-        transparencyCanvas.heightProperty().addListener(transparencyRedrawHandler);
+        this.activeTool = new ReadOnlyObjectWrapper<>(new Select());
+        textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 16));
+        rowsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -95,46 +75,13 @@ public class TabInternalsController {
         );
         backgroundSelected = backgroundSelectedWrapper.getReadOnlyProperty();
         activeLayer = selectionModel.selectedItemProperty();
-        activeColor = colorPicker.valueProperty();
 
         layers.getItems().addListener((ListChangeListener<Layer>) c -> layersCount.set(layers.getItems().size()));
         layers.getItems().add(new Layer("Background", backgroundCanvas));
         selectionModel.selectFirst();
         layers.setCellFactory(listView -> new LayerCell());
-    }
-
-    private Screen getCurrentScreen() {
-        var scene = transparencyCanvas.getScene();
-        // on initialize Scene is null, but it will launch on primary screen anyway
-        if (scene == null) {
-            return Screen.getPrimary();
-        }
-
-        var window = transparencyCanvas.getScene().getWindow();
-        return Screen.getScreensForRectangle(
-                window.getX(),
-                window.getY(),
-                window.getWidth(),
-                window.getHeight()
-        ).get(0);
-    }
-
-    private void drawTransparencyCheckerboard() {
-        var screen = getCurrentScreen();
-        var width = transparencyCanvas.getWidth();
-        var height = transparencyCanvas.getHeight();
-        var squareSize = (int) Math.round(screen.getBounds().getWidth() * 0.01);
-        var context = transparencyCanvas.getGraphicsContext2D();
-        context.setFill(Color.WHITE);
-        context.fillRect(0, 0, width, height);
-        context.setFill(new Color(0.75, 0.75, 0.75, 1));
-        // TODO: This should be a shader tbh, but JSL is a pain to set up and not documented at all
-        for (var x = 0; x < width; x += squareSize) {
-            var isOddRow = x % (2*squareSize) != 0;
-            for (var y = isOddRow ? squareSize : 0 ; y < height; y += squareSize * 2) {
-                context.fillRect(x, y, squareSize, squareSize);
-            }
-        }
+        this.backgroundStickerCanvas.setHeight(512);
+        this.backgroundStickerCanvas.setWidth(512);
     }
 
     public void newImage(boolean transparent) {
@@ -155,6 +102,7 @@ public class TabInternalsController {
 
     public void drawImage(Image image) {
         activeLayer.getValue().drawImage(image);
+        mirrorCanvas();
         Platform.runLater(() -> {
             layers.getItems().clear();
             layers.getItems().add(new Layer("Background", backgroundCanvas));
@@ -162,44 +110,45 @@ public class TabInternalsController {
         });
     }
 
+    private void mirrorCanvas() {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setTransform(new Scale(scale, scale));
+        WritableImage image = backgroundCanvas.snapshot(params, null);
+        offsetX = image.getWidth() / 6;
+        offsetY = image.getHeight() / 8;
+        backgroundStickerCanvas.getGraphicsContext2D().drawImage(image, offsetX, offsetY, 512, 512, 0, 0, 512, 512);
+    }
+
     @FXML
     private void onMousePressed(MouseEvent event) {
         // TODO do it with property binding and invalidation listeners
-        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
-        if (tool instanceof DrawingTool) {
-            ((DrawingTool) tool).setRadius(brushSizeSpinner.getValue());
-        }
+        var tool = activeTool.getValue();
         var canvas = activeLayer.getValue().getCanvas();
-        canvas.getGraphicsContext2D().setFill(activeColor.getValue());
-        canvas.getGraphicsContext2D().setStroke(activeColor.getValue());
         tool.handleDragStart(event, canvas);
     }
 
     @FXML
     private void onMouseDragged(MouseEvent event) {
-        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        var tool = activeTool.getValue();
         tool.handleDrag(event);
     }
 
     @FXML
     private void onMouseReleased(MouseEvent event) {
-        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        var tool = activeTool.getValue();
         tool.handleDragEnd(event);
         activeLayer.getValue().updatePreview();
     }
 
     @FXML
     private void onToolEntered(MouseEvent event) {
-        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
-        if (tool instanceof DrawingTool) {
-            ((DrawingTool) tool).setRadius(brushSizeSpinner.getValue());
-        }
+        var tool = activeTool.getValue();
         tool.handleToolEnter(event, toolCanvas);
     }
 
     @FXML
     private void onToolExited(MouseEvent event) {
-        var tool = ((ToolButton)tools.getSelectedToggle()).getTool();
+        var tool = activeTool.getValue();
         tool.handleToolLeave(event, toolCanvas);
     }
 

@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.Tooltip?>
-
-<?import javafx.scene.layout.BorderPane?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import javafx.scene.paint.Color?>
-
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.StackPane?>
-<?import space.graynk.sie.gui.ZoomableScrollPane?>
 <?import javafx.scene.canvas.Canvas?>
-<?import space.graynk.sie.gui.ToolButton?>
-<?import space.graynk.sie.tools.ToolType?>
-
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.*?>
+<?import space.graynk.sie.gui.ZoomableScrollPane?>
+<?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
@@ -27,211 +15,31 @@
     <TitledPane animated="false" collapsible="false" text="Tools"
                 BorderPane.alignment="TOP_CENTER">
       <ToolBar orientation="VERTICAL">
-        <ToolBar>
-          <ToolButton accessibleText="Brush"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" selected="true">
-            <graphic>
-              <FontIcon iconLiteral="cil-brush" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="BRUSH"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Brush"/>
-            </tooltip>
-            <toggleGroup>
-              <ToggleGroup fx:id="tools"/>
-            </toggleGroup>
-          </ToolButton>
-          <ToolButton accessibleText="Pencil"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltral-edit-20" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="PENCIL"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Pencil"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <ToolBar layoutX="10.0" layoutY="57.0">
-          <ToolButton accessibleText="Bucket"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltfal-color-fill-20"
-                        iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="BUCKET"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Bucket"/>
-            </tooltip>
-          </ToolButton>
-          <ToolButton accessibleText="Eraser"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools">
-            <graphic>
-              <FontIcon iconLiteral="fltral-eraser-20" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="ERASER"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Eraser"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <ToolBar layoutX="10.0" layoutY="103.0">
-          <ToolButton accessibleText="Add Text"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltrmz-text-add-24"
-                        iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="TEXT"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Add Text"/>
-            </tooltip>
-          </ToolButton>
-          <ToolButton accessibleText="Color Picker"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltral-color-24" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="COLOR_PICKER"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Color Picker"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <ToolBar layoutX="10.0" layoutY="239.0">
-          <ToolButton accessibleText="Draw Line"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltfal-color-line-20"
-                        iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="DRAW_LINE"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Draw Line"/>
-            </tooltip>
-          </ToolButton>
-          <ToolButton accessibleText="Draw Rectangle"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="DRAW_RECTANGLE"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Draw Rectangle"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <ToolBar layoutX="10.0" layoutY="57.0">
-          <ToolButton accessibleText="Draw Oval"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="cil-circle" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="DRAW_OVAL"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Draw Oval"/>
-            </tooltip>
-          </ToolButton>
-          <ToolButton accessibleText="Draw Rounded Rectangle"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="cil-recycle" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="DRAW_ROUNDED_RECTANGLE"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Draw Rounded Rectangle"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <ToolBar>
-          <ToolButton accessibleText="Move"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltral-drag-24" iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="MOVE"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Move"/>
-            </tooltip>
-          </ToolButton>
-          <ToolButton accessibleText="Select"
-                        contentDisplay="GRAPHIC_ONLY"
-                        mnemonicParsing="false" toggleGroup="$tools" disable="true">
-            <graphic>
-              <FontIcon iconLiteral="fltrmz-select-object-20"
-                        iconSize="24"/>
-            </graphic>
-            <toolType>
-              <ToolType fx:constant="SELECT"/>
-            </toolType>
-            <tooltip>
-              <Tooltip text="Select"/>
-            </tooltip>
-          </ToolButton>
-        </ToolBar>
-        <Separator/>
-        <VBox fx:id="toolParameters">
-          <Spinner fx:id="brushSizeSpinner"/>
-        </VBox>
-        <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="95.0">
-          <value>
-            <Color/>
-          </value>
-        </ColorPicker>
+        <Spinner fx:id="textHeightSpinner"/>
+        <Spinner fx:id="rowsSpinner"/>
       </ToolBar>
     </TitledPane>
   </left>
   <center>
-    <ZoomableScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
-      <StackPane>
-        <Canvas fx:id="transparencyCanvas"/>
-        <StackPane fx:id="stackPane">
-          <Canvas fx:id="backgroundCanvas" height="300.0" width="300.0"
-                  onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
+    <SplitPane>
+      <ZoomableScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
+        <StackPane>
+          <StackPane fx:id="stackPane">
+            <Canvas fx:id="backgroundCanvas" height="600.0" width="600.0"
+                    onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
+          </StackPane>
+          <Canvas fx:id="toolCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="500" height="500"/>
         </StackPane>
-        <Canvas fx:id="toolCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="500" height="500"/>
-      </StackPane>
-    </ZoomableScrollPane>
+      </ZoomableScrollPane>
+      <ScrollPane fx:id="stickerPane" fitToHeight="true" fitToWidth="true" pannable="true">
+        <StackPane>
+          <StackPane fx:id="stackStickerPane">
+            <Canvas fx:id="backgroundStickerCanvas" height="512.0" width="512.0"
+                    onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
+          </StackPane>
+          <Canvas fx:id="textCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="512" height="512"/>
+        </StackPane>
+      </ScrollPane>
+    </SplitPane>
   </center>
-  <right>
-    <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
-                BorderPane.alignment="TOP_CENTER">
-      <ListView fx:id="layers">
-
-      </ListView>
-    </TitledPane>
-  </right>
 </BorderPane>
