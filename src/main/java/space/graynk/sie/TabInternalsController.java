@@ -5,14 +5,19 @@ import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import space.graynk.sie.gui.Layer;
@@ -24,13 +29,12 @@ import space.graynk.sie.tools.manipulation.Select;
 import java.awt.image.BufferedImage;
 
 public class TabInternalsController {
-    private final ListView<Layer> layers = new ListView<>();
+    @FXML
+    private ListView<Layer> layers;
     @FXML
     private ZoomableScrollPane scrollPane;
     @FXML
-    private StackPane stackPane;
-    @FXML
-    private Canvas backgroundCanvas;
+    private ImageView imageView;
     @FXML
     private Canvas toolCanvas;
     @FXML
@@ -38,11 +42,9 @@ public class TabInternalsController {
     @FXML
     private Spinner<Integer> rowsSpinner;
     @FXML
-    private ScrollPane stickerPane;
+    private StackPane fullStickerPane;
     @FXML
-    private StackPane stackStickerPane;
-    @FXML
-    private Canvas backgroundStickerCanvas;
+    private ImageView stickerImageView;
     @FXML
     private Canvas textCanvas;
 
@@ -52,9 +54,11 @@ public class TabInternalsController {
     public ReadOnlyBooleanProperty backgroundSelected;
     private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
     public ReadOnlyIntegerProperty layersCountProperty;
-    private double offsetX;
-    private double offsetY;
-    private double scale = 0.5;
+    private final DoubleProperty scaleProperty = new SimpleDoubleProperty(0.7);
+    private Image openedImage;
+    private final ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+
+    private static final int MIN_PIXELS = 10;
 
     @FXML
     private void initialize() {
@@ -77,11 +81,10 @@ public class TabInternalsController {
         activeLayer = selectionModel.selectedItemProperty();
 
         layers.getItems().addListener((ListChangeListener<Layer>) c -> layersCount.set(layers.getItems().size()));
-        layers.getItems().add(new Layer("Background", backgroundCanvas));
+//        layers.getItems().add(new Layer("Background", backgroundCanvas));
         selectionModel.selectFirst();
         layers.setCellFactory(listView -> new LayerCell());
-        this.backgroundStickerCanvas.setHeight(512);
-        this.backgroundStickerCanvas.setWidth(512);
+        scaleProperty.addListener((observable, oldValue, newValue) -> drawStickerBackground());
     }
 
     public void newImage(boolean transparent) {
@@ -89,34 +92,76 @@ public class TabInternalsController {
     }
 
     public void newImage(int width, int height, boolean transparent) {
-        backgroundCanvas.setWidth(width);
-        backgroundCanvas.setHeight(height);
-        var context = backgroundCanvas.getGraphicsContext2D();
-//        context.setImageSmoothing(false);
-        if (!transparent) {
-            context.setFill(Color.WHITE);
-            context.fillRect(0, 0, width, height);
-        }
-        this.activeLayer.getValue().updatePreview();
+//        imageView.setViewport(new Rectangle2D(0, 0, 512, 512));
+//        var context = backgroundCanvas.getGraphicsContext2D();
+////        context.setImageSmoothing(false);
+//        if (!transparent) {
+//            context.setFill(Color.WHITE);
+//            context.fillRect(0, 0, width, height);
+//        }
+//        this.activeLayer.getValue().updatePreview();
     }
 
     public void drawImage(Image image) {
-        activeLayer.getValue().drawImage(image);
-        mirrorCanvas();
+        openedImage = image;
+        imageView.setImage(image);
+        stickerImageView.setImage(image);
+        stickerImageView.setViewport(new Rectangle2D(image.getWidth()/2, image.getHeight()/2, 512, 512));
+//        activeLayer.getValue().drawImage(image);
+        drawStickerBackground();
         Platform.runLater(() -> {
             layers.getItems().clear();
-            layers.getItems().add(new Layer("Background", backgroundCanvas));
+//            layers.getItems().add(new Layer("Background", backgroundCanvas));
             selectionModel.selectFirst();
         });
     }
 
-    private void mirrorCanvas() {
-        SnapshotParameters params = new SnapshotParameters();
-        params.setTransform(new Scale(scale, scale));
-        WritableImage image = backgroundCanvas.snapshot(params, null);
-        offsetX = image.getWidth() / 6;
-        offsetY = image.getHeight() / 8;
-        backgroundStickerCanvas.getGraphicsContext2D().drawImage(image, offsetX, offsetY, 512, 512, 0, 0, 512, 512);
+    private void shift(ImageView imageView, Point2D delta) {
+        Rectangle2D viewport = imageView.getViewport();
+
+        var width = imageView.getImage().getWidth() ;
+        var height = imageView.getImage().getHeight() ;
+
+        var maxX = width - viewport.getWidth();
+        var maxY = height - viewport.getHeight();
+
+        var minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
+        var minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
+
+        imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
+    }
+
+    private double clamp(double value, double min, double max) {
+        if (value < min) {
+            return min;
+        }
+        if (value > max) {
+            return max;
+        }
+        return value;
+    }
+    private Point2D imageViewToImage(ImageView imageView, Point2D imageViewCoordinates) {
+        double xProportion = imageViewCoordinates.getX() / imageView.getBoundsInLocal().getWidth();
+        double yProportion = imageViewCoordinates.getY() / imageView.getBoundsInLocal().getHeight();
+
+        Rectangle2D viewport = imageView.getViewport();
+        return new Point2D(
+                viewport.getMinX() + xProportion * viewport.getWidth(),
+                viewport.getMinY() + yProportion * viewport.getHeight());
+    }
+
+    private void drawStickerBackground() {
+        var scale = scaleProperty.get();
+//        backgroundStickerCanvas.setWidth(openedImage.getWidth());
+//        backgroundStickerCanvas.setHeight(openedImage.getHeight());
+//        backgroundStickerCanvas.getGraphicsContext2D().scale(scale, scale);
+//        backgroundStickerCanvas.getGraphicsContext2D().drawImage(openedImage, 0, 0);
+        final SnapshotParameters spa = new SnapshotParameters();
+        spa.setTransform(Transform.scale(scale, scale));
+//        spa.setFill(Color.TRANSPARENT);
+        var image = new WritableImage((int) openedImage.getWidth(), (int) openedImage.getHeight());
+        imageView.snapshot(spa, image);
+        stickerImageView.setImage(image);
     }
 
     @FXML
@@ -128,9 +173,69 @@ public class TabInternalsController {
     }
 
     @FXML
+    private void onStickerPressed(MouseEvent event) {
+        Point2D mousePress = imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY()));
+        mouseDown.set(mousePress);
+    }
+
+    @FXML
+    private void onStickerDragged(MouseEvent event) {
+        Point2D dragPoint = imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY()));
+        shift(stickerImageView, dragPoint.subtract(mouseDown.get()));
+        mouseDown.set(imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY())));
+    }
+
+    private int sign(double delta) {
+        if (delta > 0) {
+            return 1;
+        }
+        if (delta < 0) {
+            return -1;
+        }
+        return 0;
+    }
+
+    @FXML
+    private void onStickerScroll(ScrollEvent event) {
+        double delta = event.getDeltaY();
+        double width = openedImage.getWidth();
+        double height = openedImage.getHeight();
+        Rectangle2D viewport = stickerImageView.getViewport();
+
+
+        double scale = clamp(scaleProperty.get() + 0.1*sign(delta),
+
+                // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+                Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+
+                // don't scale so that we're bigger than image dimensions:
+                Math.max(width / viewport.getWidth(), height / viewport.getHeight())
+
+        );
+        scaleProperty.set(scale);
+
+//        stickerImageView.setScaleX(scale);
+//        stickerImageView.setScaleY(scale);
+    }
+
+    @FXML
     private void onMouseDragged(MouseEvent event) {
         var tool = activeTool.getValue();
         tool.handleDrag(event);
+    }
+
+    @FXML
+    private void onStickerPaneScroll(ScrollEvent event) {
+        event.consume();
+        var delta = event.getDeltaY();
+        if (delta == 0) return;
+        var scaleDelta = delta > 0 ? 0.1 : -0.1;
+        scaleProperty.set(scaleProperty.get() + scaleDelta);
+    }
+
+    @FXML
+    private void doNothing(ScrollEvent event) {
+        event.consume();
     }
 
     @FXML
@@ -156,9 +261,9 @@ public class TabInternalsController {
         final SnapshotParameters spa = new SnapshotParameters();
         var scale = 1 / scrollPane.scaleValue;
         spa.setTransform(Transform.scale(scale, scale));
-        spa.setFill(Color.TRANSPARENT);
-        var image = new WritableImage((int) stackPane.getWidth(), (int) stackPane.getHeight());
-        stackPane.snapshot(spa, image);
+//        spa.setFill(Color.TRANSPARENT);
+        var image = new WritableImage((int) fullStickerPane.getWidth(), (int) fullStickerPane.getHeight());
+        fullStickerPane.snapshot(spa, image);
         return SwingFXUtils.fromFXImage(image, null);
     }
 
@@ -166,7 +271,7 @@ public class TabInternalsController {
         var layer = new Layer(String.format("Layer %d", layers.getItems().size()));
         layers.getItems().add(0, layer);
         selectionModel.selectFirst();
-        stackPane.getChildren().add(layer.getCanvas());
+        fullStickerPane.getChildren().add(layer.getCanvas());
     }
 
     public void deleteActiveLayer() {
@@ -175,7 +280,7 @@ public class TabInternalsController {
         if (selectedIndex == 0) selectionModel.selectNext();
         else selectionModel.selectPrevious();
         layers.getItems().remove(selectedIndex);
-        var canvases = stackPane.getChildren();
+        var canvases = fullStickerPane.getChildren();
         canvases.remove(canvases.size() - selectedIndex - 1);
     }
 

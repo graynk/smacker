@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.*?>
 <?import space.graynk.sie.gui.ZoomableScrollPane?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
@@ -24,22 +26,20 @@
     <SplitPane>
       <ZoomableScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
         <StackPane>
-          <StackPane fx:id="stackPane">
-            <Canvas fx:id="backgroundCanvas" height="600.0" width="600.0"
-                    onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
-          </StackPane>
+          <ImageView fx:id="imageView" preserveRatio="true" onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
           <Canvas fx:id="toolCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="500" height="500"/>
         </StackPane>
       </ZoomableScrollPane>
-      <ScrollPane fx:id="stickerPane" fitToHeight="true" fitToWidth="true" pannable="true">
-        <StackPane>
-          <StackPane fx:id="stackStickerPane">
-            <Canvas fx:id="backgroundStickerCanvas" height="512.0" width="512.0"
-                    onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
-          </StackPane>
-          <Canvas fx:id="textCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="512" height="512"/>
-        </StackPane>
-      </ScrollPane>
+      <StackPane fx:id="fullStickerPane" onScroll="#onStickerPaneScroll">
+        <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onScroll="#onStickerScroll"/>
+        <Canvas fx:id="textCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="512" height="512" mouseTransparent="true"/>
+      </StackPane>
     </SplitPane>
   </center>
+  <right>
+    <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
+                BorderPane.alignment="TOP_CENTER">
+      <ListView fx:id="layers"/>
+    </TitledPane>
+  </right>
 </BorderPane>
