@@ -14,6 +14,7 @@ public class SieApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Sie");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

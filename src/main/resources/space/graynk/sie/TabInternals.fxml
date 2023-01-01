@@ -6,30 +6,31 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.*?>
-<?import space.graynk.sie.gui.ZoomableScrollPane?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
-  <left>
-    <TitledPane animated="false" collapsible="false" text="Tools"
-                BorderPane.alignment="TOP_CENTER">
-      <ToolBar orientation="VERTICAL">
-        <Spinner fx:id="textHeightSpinner"/>
-        <Spinner fx:id="rowsSpinner"/>
-      </ToolBar>
-    </TitledPane>
-  </left>
+  <bottom>
+    <ToolBar>
+      <Label labelFor="$textHeightSpinner" text="Text Height"/>
+      <Spinner fx:id="textHeightSpinner"/>
+      <Separator/>
+      <Label labelFor="$rowsSpinner" text="Rows"/>
+      <Spinner fx:id="rowsSpinner"/>
+    </ToolBar>
+  </bottom>
   <center>
-    <SplitPane>
-      <ZoomableScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
-        <StackPane>
-          <ImageView fx:id="imageView" preserveRatio="true" onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased"/>
-          <Canvas fx:id="toolCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="500" height="500"/>
+    <SplitPane fx:id="splitPane">
+      <ScrollPane fx:id="imagePane" fitToHeight="true" fitToWidth="true">
+        <StackPane fx:id="imageStackPane">
+          <ImageView fx:id="imageView" preserveRatio="true"/>
+          <Canvas fx:id="toolCanvas" onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited"/>
         </StackPane>
-      </ZoomableScrollPane>
+      </ScrollPane>
       <StackPane fx:id="fullStickerPane" onScroll="#onStickerPaneScroll">
         <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onScroll="#onStickerScroll"/>
         <Canvas fx:id="textCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="512" height="512" mouseTransparent="true"/>
