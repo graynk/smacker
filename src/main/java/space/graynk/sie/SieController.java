@@ -60,9 +60,6 @@ public class SieController {
 
     @FXML
     private void initialize() {
-        activeTabController = defaultTabController;
-        controllerMap.put(tabPane.getTabs().get(0), activeTabController);
-        activeTabController.newImage(false);
         var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
         deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
         mergeLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
@@ -119,6 +116,7 @@ public class SieController {
     private void onSaveAsFile() {
         fileChooser.setTitle("Save image");
         fileChooser.setInitialDirectory(userDirectory);
+        fileChooser.setInitialFileName("*.png");
         fileChooser.getExtensionFilters().addAll(filters);
         File file = fileChooser.showSaveDialog(tabPane.getScene().getWindow());
         if (file == null) {

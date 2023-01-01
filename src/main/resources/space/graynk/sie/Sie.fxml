@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.SieController"
@@ -18,6 +19,9 @@
           <graphic>
             <FontIcon iconLiteral="fltral-folder-open-20" iconSize="18"/>
           </graphic>
+          <accelerator>
+            <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+          </accelerator>
         </MenuItem>
         <Menu mnemonicParsing="false" text="Open Recent"/>
         <SeparatorMenuItem mnemonicParsing="false"/>
@@ -25,11 +29,17 @@
           <graphic>
             <FontIcon iconLiteral="fltrmz-save-20" iconSize="18"/>
           </graphic>
+          <accelerator>
+            <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+          </accelerator>
         </MenuItem>
         <MenuItem mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As…">
           <graphic>
             <FontIcon iconLiteral="fltrmz-save-as-20" iconSize="18"/>
           </graphic>
+          <accelerator>
+            <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+          </accelerator>
         </MenuItem>
         <SeparatorMenuItem mnemonicParsing="false"/>
         <MenuItem mnemonicParsing="false" text="Preferences">
@@ -78,7 +88,11 @@
         </MenuItem>
       </Menu>
       <Menu mnemonicParsing="false" text="Layers">
-        <MenuItem mnemonicParsing="false" text="Add New Layer" onAction="#addLayer"/>
+        <MenuItem mnemonicParsing="false" text="Add New Layer" onAction="#addLayer">
+          <accelerator>
+            <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+          </accelerator>
+        </MenuItem>
         <MenuItem fx:id="deleteLayerMenu" mnemonicParsing="false" text="Delete Layer" onAction="#deleteLayer"/>
         <MenuItem mnemonicParsing="false" text="Duplicate Layer"/>
         <MenuItem fx:id="mergeLayerMenu" mnemonicParsing="false" text="Merge Layer Down" onAction="#mergeDown"/>

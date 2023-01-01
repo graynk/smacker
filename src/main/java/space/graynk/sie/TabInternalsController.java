@@ -9,6 +9,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -61,7 +62,7 @@ public class TabInternalsController {
     @FXML
     private void initialize() {
         this.activeTool = new ReadOnlyObjectWrapper<>(new Select());
-        textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 35));
+        textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 42));
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -153,9 +154,17 @@ public class TabInternalsController {
 
     @FXML
     private void onStickerDragged(MouseEvent event) {
+        fullStickerPane.getScene().setCursor(Cursor.MOVE);
         Point2D dragPoint = imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY()));
         shift(stickerImageView, dragPoint.subtract(mouseDown.get()));
         mouseDown.set(imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY())));
+    }
+
+    @FXML
+    private void onStickerReleased(MouseEvent event) {
+        fullStickerPane.getScene().setCursor(Cursor.DEFAULT);
+        Point2D mousePress = imageViewToImage(stickerImageView, new Point2D(event.getX(), event.getY()));
+        mouseDown.set(mousePress);
     }
 
     @FXML
@@ -251,8 +260,6 @@ public class TabInternalsController {
                 (fullStickerPane.getWidth()-512)/2,
                 (fullStickerPane.getHeight()-512)/2,
                 512, 512));
-        System.out.println(fullStickerPane.getWidth());
-        System.out.println(fullStickerPane.getHeight());
         var image = new WritableImage(512, 512);
         fullStickerPane.snapshot(spa, image);
         return SwingFXUtils.fromFXImage(image, null);

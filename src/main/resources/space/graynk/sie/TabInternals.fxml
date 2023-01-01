@@ -30,7 +30,7 @@
         </StackPane>
       </ScrollPane>
       <StackPane fx:id="fullStickerPane" onScroll="#onStickerPaneScroll">
-        <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onScroll="#onStickerScroll"/>
+        <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onMouseReleased="#onStickerReleased" onScroll="#onStickerScroll"/>
       </StackPane>
     </SplitPane>
   </center>
