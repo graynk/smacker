@@ -9,20 +9,11 @@
             prefWidth="1600"
             prefHeight="900">
   <center>
-    <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS">
-      <Tab text="New Image">
-        <fx:include fx:id="defaultTab" source="TabInternals.fxml"/>
-      </Tab>
-    </TabPane>
+    <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS"/>
   </center>
   <top>
     <MenuBar BorderPane.alignment="CENTER">
       <Menu mnemonicParsing="false" text="File">
-        <MenuItem mnemonicParsing="false" text="New" onAction="#newFile">
-          <graphic>
-            <FontIcon iconLiteral="fltral-document-20" iconSize="18"/>
-          </graphic>
-        </MenuItem>
         <MenuItem mnemonicParsing="false" onAction="#onOpenFile" text="Open">
           <graphic>
             <FontIcon iconLiteral="fltral-folder-open-20" iconSize="18"/>

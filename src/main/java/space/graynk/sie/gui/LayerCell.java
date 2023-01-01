@@ -14,6 +14,8 @@ public class LayerCell extends ListCell<Layer> {
             setText(null);
             setGraphic(null);
         } else {
+            // shut up, I know
+            this.setDisable(item.getText().equals("Background"));
             imageView.imageProperty().bind(item.previewProperty);
             setText(item.getText());
             setGraphic(imageView);

@@ -3,19 +3,29 @@ package space.graynk.sie.gui;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Transform;
 
 public class Layer {
     private ReadOnlyObjectWrapper<Image> preview = new ReadOnlyObjectWrapper<>();
     public ReadOnlyObjectProperty<Image> previewProperty;
     private String text;
-    private final Canvas canvas;
-    private final GraphicsContext context;
+    private Canvas canvas;
+    private GraphicsContext context;
+
+    public Layer(String text, ImageView imageView) {
+        this.previewProperty = preview;
+        this.text = text;
+        this.previewProperty = preview.getReadOnlyProperty();
+        this.updatePreview(imageView);
+    }
 
     public Layer(String text, Canvas canvas) {
         this.previewProperty = preview;
@@ -23,7 +33,7 @@ public class Layer {
         this.previewProperty = preview.getReadOnlyProperty();
         this.canvas = canvas;
         this.context = canvas.getGraphicsContext2D();
-        this.updatePreview();
+        this.updatePreview(canvas);
     }
 
     public Layer(String text) {
@@ -33,7 +43,7 @@ public class Layer {
         this.canvas = new Canvas(500, 500);
         canvas.setMouseTransparent(true);
         this.context = canvas.getGraphicsContext2D();
-        this.updatePreview();
+        this.updatePreview(canvas);
     }
 
     public String getText() {
@@ -49,7 +59,7 @@ public class Layer {
             canvas.setWidth(image.getWidth());
             canvas.setHeight(image.getHeight());
             context.drawImage(image, 0, 0);
-            updatePreview();
+            updatePreview(canvas);
         };
 
         if (Platform.isFxApplicationThread()) {
@@ -61,15 +71,19 @@ public class Layer {
     }
 
     public void updatePreview() {
+        this.updatePreview(canvas);
+    }
+
+    private void updatePreview(Node node) {
         var previewSize = 50;
-        var width = canvas.getWidth();
-        var height = canvas.getHeight();
+        var width = node.getBoundsInLocal().getWidth();
+        var height = node.getBoundsInLocal().getHeight();
         final SnapshotParameters spa = new SnapshotParameters();
         var biggestSide = Math.max(width, height);
         var scale = previewSize / biggestSide;
         spa.setTransform(Transform.scale(scale, scale));
         var image = new WritableImage((int)(width*scale), (int)(height*scale));
-        canvas.snapshot(spa, image);
+        node.snapshot(spa, image);
         preview.setValue(image);
     }
 
@@ -77,7 +91,9 @@ public class Layer {
         var width = canvas.getWidth();
         var height = canvas.getHeight();
         var image = new WritableImage((int) width, (int) height);
-        canvas.snapshot(null, image);
+        var parameter = new SnapshotParameters();
+        parameter.setFill(Color.TRANSPARENT);
+        canvas.snapshot(parameter, image);
         return image;
     }
 

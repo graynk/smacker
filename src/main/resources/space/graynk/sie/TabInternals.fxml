@@ -19,8 +19,6 @@
       <Label labelFor="$textHeightSpinner" text="Text Height"/>
       <Spinner fx:id="textHeightSpinner"/>
       <Separator/>
-      <Label labelFor="$rowsSpinner" text="Rows"/>
-      <Spinner fx:id="rowsSpinner"/>
     </ToolBar>
   </bottom>
   <center>
@@ -33,7 +31,6 @@
       </ScrollPane>
       <StackPane fx:id="fullStickerPane" onScroll="#onStickerPaneScroll">
         <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onScroll="#onStickerScroll"/>
-        <Canvas fx:id="textCanvas" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited" width="512" height="512" mouseTransparent="true"/>
       </StackPane>
     </SplitPane>
   </center>

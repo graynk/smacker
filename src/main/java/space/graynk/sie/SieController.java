@@ -38,8 +38,6 @@ public class SieController {
     private MenuItem deleteLayerMenu;
     @FXML
     private MenuItem mergeLayerMenu;
-    @FXML
-    private TabInternalsController defaultTabController;
     private TabInternalsController activeTabController;
     private final Map<Tab, TabInternalsController> controllerMap = new HashMap<>(16);
 
@@ -66,7 +64,6 @@ public class SieController {
         controllerMap.put(tabPane.getTabs().get(0), activeTabController);
         activeTabController.newImage(false);
         var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
-        activeTabBackgroundSelectedWrapper.bind(activeTabController.backgroundSelected);
         deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
         mergeLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
         tabPane.getSelectionModel()
@@ -145,14 +142,6 @@ public class SieController {
     @FXML
     private void quit() {
         Platform.exit();
-    }
-
-    @FXML
-    private void newFile() {
-        worker.submit(() -> {
-            createNewTab("New Image");
-            Platform.runLater(() -> activeTabController.newImage(true));
-        });
     }
 
     @FXML
