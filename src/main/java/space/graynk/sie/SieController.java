@@ -41,21 +41,24 @@ public class SieController {
     private TabInternalsController activeTabController;
     private final Map<Tab, TabInternalsController> controllerMap = new HashMap<>(16);
 
-    private final File userDirectory;
+    private File readDirectory;
+    private File writeDirectory;
     private final FileChooser fileChooser = new FileChooser();
 
     public SieController() {
         var userDirectoryString = System.getProperty("user.home");
         var pictures = new File(String.format("%s%s%s", userDirectoryString, File.separator, "Pictures"));
         if (pictures.canRead() && pictures.isDirectory()) {
-            userDirectory = pictures;
+            readDirectory = pictures;
+            writeDirectory = pictures;
             return;
         }
         var home = new File(userDirectoryString);
         if(!home.canRead()) {
             home = new File(".");
         }
-        userDirectory = home;
+        readDirectory = home;
+        writeDirectory = pictures;
     }
 
     @FXML
@@ -115,25 +118,27 @@ public class SieController {
     @FXML
     private void onSaveAsFile() {
         fileChooser.setTitle("Save image");
-        fileChooser.setInitialDirectory(userDirectory);
+        fileChooser.setInitialDirectory(writeDirectory);
         fileChooser.setInitialFileName("*.png");
         fileChooser.getExtensionFilters().addAll(filters);
         File file = fileChooser.showSaveDialog(tabPane.getScene().getWindow());
         if (file == null) {
             return;
         }
+        writeDirectory = file.getParentFile();
         saveImageToFile(file);
     }
 
     @FXML
     private void onOpenFile() {
         fileChooser.setTitle("Open image");
-        fileChooser.setInitialDirectory(userDirectory);
+        fileChooser.setInitialDirectory(readDirectory);
         fileChooser.getExtensionFilters().addAll(filters);
         File file = fileChooser.showOpenDialog(tabPane.getScene().getWindow());
         if (file == null) {
             return;
         }
+        readDirectory = file.getParentFile();
         worker.submit(() -> loadImageFromFile(file));
     }
 

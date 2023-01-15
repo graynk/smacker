@@ -1,17 +1,43 @@
 {
   "resources":{
   "includes":[
-    {"pattern":"\\QMETA-INF/resources/coreui/2.0.0-beta.5/fonts/CoreUI-Icons-Brand.ttf\\E"}, 
-    {"pattern":"\\QMETA-INF/resources/coreui/2.0.0-beta.5/fonts/CoreUI-Icons-Free.ttf\\E"}, 
-    {"pattern":"\\QMETA-INF/resources/fluentui/1.1.74/fonts/FluentSystemIcons-Filled.ttf\\E"}, 
-    {"pattern":"\\QMETA-INF/resources/fluentui/1.1.74/fonts/FluentSystemIcons-Regular.ttf\\E"}, 
-    {"pattern":"\\QMETA-INF/resources/ikonli/0.0.0/fonts/ikonli.ttf\\E"}, 
-    {"pattern":"\\QMETA-INF/services/org.kordamp.ikonli.IkonHandler\\E"}, 
-    {"pattern":"\\Qspace/graynk/sie/Sie.fxml\\E"}
+    {
+      "pattern":"\\QMETA-INF/resources/coreui/2.0.0-beta.5/fonts/CoreUI-Icons-Brand.ttf\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/resources/coreui/2.0.0-beta.5/fonts/CoreUI-Icons-Free.ttf\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/resources/fluentui/1.1.74/fonts/FluentSystemIcons-Filled.ttf\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/resources/fluentui/1.1.74/fonts/FluentSystemIcons-Regular.ttf\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/resources/ikonli/0.0.0/fonts/ikonli.ttf\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/org.kordamp.ikonli.IkonHandler\\E"
+    }, 
+    {
+      "pattern":"\\Qspace/graynk/sie/Sie.fxml\\E"
+    }
   ]},
   "bundles":[
-    {"name":"com.sun.javafx.tk.quantum.QuantumMessagesBundle"}, 
-    {"name":"com/sun/javafx/scene/control/skin/resources/controls"}, 
-    {"name":"sun.awt.resources.awt"}
+    {
+      "name":"com.sun.javafx.tk.quantum.QuantumMessagesBundle",
+      "locales":[
+        "", 
+        "und"
+      ]
+    }, 
+    {
+      "name":"com/sun/javafx/scene/control/skin/resources/controls",
+      "locales":[""]
+    }, 
+    {
+      "name":"sun.awt.resources.awt",
+      "classNames":["sun.awt.resources.awt"]
+    }
   ]
 }
