@@ -2,8 +2,6 @@ package space.graynk.sie;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -19,6 +17,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import space.graynk.sie.gui.Layer;
 import space.graynk.sie.gui.LayerCell;
@@ -43,6 +42,8 @@ public class TabInternalsController {
     @FXML
     private Spinner<Integer> textHeightSpinner;
     @FXML
+    private Spinner<Integer> paddingSpinner;
+    @FXML
     private StackPane fullStickerPane;
     @FXML
     private ImageView stickerImageView;
@@ -61,8 +62,9 @@ public class TabInternalsController {
 
     @FXML
     private void initialize() {
-        this.activeTool = new ReadOnlyObjectWrapper<>(new Select());
         textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 42));
+        paddingSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 200, 80));
+        this.activeTool = new ReadOnlyObjectWrapper<>(new Select(paddingSpinner.valueProperty()));
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -176,7 +178,6 @@ public class TabInternalsController {
 
 
         double scale = clamp(scaleProperty.get() + 0.1*sign(delta),
-
                 // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
                 Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
 
@@ -212,14 +213,19 @@ public class TabInternalsController {
     private void onMouseReleased(MouseEvent event) {
         var tool = activeTool.getValue();
         tool.handleDragEnd(event);
-        var selection = ((Select)tool).getSelection();
+        var select = (Select)tool;
+        var selection = select.getSelection();
         var wim = new WritableImage((int)selection.getWidth(), (int)selection.getHeight());
         var parameter = new SnapshotParameters();
+        var scale = select.getScale();
+        if (Math.abs(1 - scale) > 0.00001) {
+            parameter.setTransform(new Scale(scale, scale));
+        }
         parameter.setViewport(selection);
         imageView.snapshot(parameter, wim);
         var textCanvasContext = activeLayer.get().getContext();
         textCanvasContext.clearRect(0, 0, 512, 512);
-        var height = textHeightSpinner.getValue().doubleValue();
+        var height = textHeightSpinner.getValue().doubleValue() * scale;
         var lines = layers.getItems().size()-1;
         var line = lines-selectionModel.getSelectedIndex()-1;
         textCanvasContext.drawImage(wim,

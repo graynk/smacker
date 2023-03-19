@@ -1,5 +1,6 @@
 package space.graynk.sie.tools.manipulation;
 
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -15,6 +16,13 @@ public class Select extends Tool {
     private double selectionHeight;
     private Canvas canvas;
     private GraphicsContext context;
+    private double scale = 1;
+    private ReadOnlyObjectProperty<Integer> scalePadding;
+
+    public Select(ReadOnlyObjectProperty<Integer> scalePadding) {
+        super();
+        this.scalePadding = scalePadding;
+    }
 
     @Override
     public void handleDragStart(MouseEvent event, Canvas canvas) {
@@ -46,6 +54,11 @@ public class Select extends Tool {
     public void handleDragEnd(MouseEvent event) {
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         this.mouseEnd = new Point2D(event.getX(), event.getY());
+        if (event.isControlDown()) {
+            this.scale = (512 - this.scalePadding.getValue()) / (this.mouseEnd.getX()- this.mouseStart.getX());
+        } else if (event.isAltDown()) {
+            this.scale = 1;
+        }
     }
 
     @Override
@@ -67,6 +80,14 @@ public class Select extends Tool {
         var startY = mouseStart.getY() - selectionHeight;
         var width = mouseEnd.getX() - startX;
         var height = selectionHeight;
-        return new Rectangle2D(startX, startY, width, height);
+        return new Rectangle2D(startX * this.scale,
+                startY * this.scale,
+                width * this.scale,
+                height * this.scale
+        );
+    }
+
+    public double getScale() {
+        return this.scale;
     }
 }
