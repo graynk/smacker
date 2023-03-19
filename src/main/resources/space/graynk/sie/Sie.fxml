@@ -9,6 +9,9 @@
             fx:controller="space.graynk.sie.SieController"
             prefWidth="1600"
             prefHeight="900">
+  <left>
+    <TreeView fx:id="fileTreeView"/>
+  </left>
   <center>
     <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS"/>
   </center>

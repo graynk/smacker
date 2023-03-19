@@ -1,15 +1,21 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
+import space.graynk.sie.gui.SimpleFileTreeItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.AbstractDocument;
 
 public class SieController {
     private final ExecutorService worker = Executors.newSingleThreadExecutor(r -> {
@@ -34,6 +41,8 @@ public class SieController {
 
     @FXML
     private TabPane tabPane;
+    @FXML
+    private TreeView<File> fileTreeView;
     @FXML
     private MenuItem deleteLayerMenu;
     @FXML
@@ -61,8 +70,32 @@ public class SieController {
         writeDirectory = pictures;
     }
 
+    private void updateFileTreeView(File root) {
+        fileTreeView.setRoot(new SimpleFileTreeItem(root));
+        fileTreeView.getRoot().setExpanded(true);
+    }
+
     @FXML
     private void initialize() {
+        this.updateFileTreeView(this.readDirectory);
+        fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            var file = newValue.getValue();
+            if (file.isDirectory()) {
+                return;
+            }
+            loadImageFromFile(file);
+        });
+        fileTreeView.setCellFactory(tv -> new TextFieldTreeCell<>(new StringConverter<File>() {
+            @Override
+            public String toString(File object) {
+                return object.getName();
+            }
+
+            @Override
+            public File fromString(String string) {
+                return new File(string);
+            }
+        }));
         var activeTabBackgroundSelectedWrapper = new ReadOnlyBooleanWrapper();
         deleteLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
         mergeLayerMenu.disableProperty().bind(activeTabBackgroundSelectedWrapper.getReadOnlyProperty());
@@ -139,6 +172,7 @@ public class SieController {
             return;
         }
         readDirectory = file.getParentFile();
+        updateFileTreeView(this.readDirectory);
         worker.submit(() -> loadImageFromFile(file));
     }
 
