@@ -29,7 +29,7 @@
         </MenuItem>
         <Menu mnemonicParsing="false" text="Open Recent"/>
         <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" text="Save">
+        <MenuItem mnemonicParsing="false" text="Save" onAction="#onSave">
           <graphic>
             <FontIcon iconLiteral="fltrmz-save-20" iconSize="18"/>
           </graphic>

@@ -61,6 +61,7 @@ public class SieController {
     private ReadOnlyObjectProperty<Tool> activeTool;
     private File readDirectory;
     private File writeDirectory;
+    private int count;
 
     public SieController() {
         var userDirectoryString = System.getProperty("user.home");
@@ -195,14 +196,34 @@ public class SieController {
     }
 
     @FXML
+    private void onSave() {
+        if (count == 0) {
+            onSaveAsFile();
+            return;
+        }
+        var file = new File(writeDirectory, String.format("%d.png", ++count));
+        saveImageToFile(file);
+    }
+
+    @FXML
     private void onSaveAsFile() {
         fileChooser.setTitle("Save image");
         fileChooser.setInitialDirectory(writeDirectory);
-        fileChooser.setInitialFileName("*.png");
+        if (count != 0) {
+            fileChooser.setInitialFileName(String.format("%d.png", count + 1));
+        } else {
+            fileChooser.setInitialFileName("*.png");
+        }
         fileChooser.getExtensionFilters().addAll(filters);
         File file = fileChooser.showSaveDialog(tabPane.getScene().getWindow());
         if (file == null) {
             return;
+        }
+        try {
+            var name = file.getName();
+            count = Integer.parseInt(name.substring(0, name.length() - 4));
+        } catch (Exception e) {
+            // noop
         }
         writeDirectory = file.getParentFile();
         saveImageToFile(file);
