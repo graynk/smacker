@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -27,6 +28,13 @@ import space.graynk.sie.tools.manipulation.Select;
 import java.awt.image.BufferedImage;
 
 public class TabInternalsController {
+    private static final int MIN_PIXELS = 10;
+    private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
+    private final DoubleProperty scaleProperty = new SimpleDoubleProperty(0.7);
+    private final ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+    private final ColorAdjust colorAdjust = new ColorAdjust();
+    public ReadOnlyBooleanProperty backgroundSelected;
+    public ReadOnlyIntegerProperty layersCountProperty;
     @FXML
     private ListView<Layer> layers;
     @FXML
@@ -40,31 +48,23 @@ public class TabInternalsController {
     @FXML
     private Canvas toolCanvas;
     @FXML
-    private Spinner<Integer> textHeightSpinner;
-    @FXML
-    private Spinner<Integer> paddingSpinner;
-    @FXML
     private StackPane fullStickerPane;
     @FXML
     private ImageView stickerImageView;
-
+    @FXML
+    private Slider brightnessSlider;
+    @FXML
+    private Slider contrastSlider;
+    @FXML
+    private Slider saturationSlider;
     private SelectionModel<Layer> selectionModel;
     private ReadOnlyObjectProperty<Layer> activeLayer;
-    private ObjectProperty<Tool> activeTool;
-    public ReadOnlyBooleanProperty backgroundSelected;
-    private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
-    public ReadOnlyIntegerProperty layersCountProperty;
-    private final DoubleProperty scaleProperty = new SimpleDoubleProperty(0.7);
+    private ReadOnlyObjectProperty<Tool> activeTool;
+    private ReadOnlyObjectProperty<Double> textHeight;
     private Image openedImage;
-    private final ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
-
-    private static final int MIN_PIXELS = 10;
 
     @FXML
     private void initialize() {
-        textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 42));
-        paddingSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 200, 80));
-        this.activeTool = new ReadOnlyObjectWrapper<>(new Select(paddingSpinner.valueProperty()));
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -83,30 +83,43 @@ public class TabInternalsController {
             var count = layers.getItems().size();
             layersCount.set(count);
         });
-        layersCount.addListener((observable, oldValue, newValue) -> {
-            var count = layers.getItems().size();
-            // -1 skips the background
-            for (int i = 0; i < count-1; i++) {
-                var layer = layers.getItems().get(i);
-                repositionText(layer, layer.getImage(), oldValue.intValue()-newValue.intValue());
-            }
-        });
+//        layersCount.addListener((observable, oldValue, newValue) -> {
+//            var count = layers.getItems().size();
+//            // -1 skips the background
+//            for (int i = 0; i < count-1; i++) {
+//                var layer = layers.getItems().get(i);
+//                repositionText(layer, layer.getImage(), oldValue.intValue()-newValue.intValue());
+//            }
+//        });
         layers.setCellFactory(listView -> new LayerCell());
         toolCanvas.widthProperty().bind(imageStackPane.widthProperty());
         toolCanvas.heightProperty().bind(imageStackPane.heightProperty());
         scaleProperty.addListener((observable, oldValue, newValue) -> drawStickerBackground(newValue.doubleValue()));
-        ((Select) activeTool.get()).setSelectionHeight(textHeightSpinner.getValue());
-        textHeightSpinner.valueProperty().addListener((observable, oldValue, newValue) -> ((Select) activeTool.get()).setSelectionHeight(newValue));
+        brightnessSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+                colorAdjust.setBrightness(newValue.doubleValue()));
+        contrastSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+                colorAdjust.setContrast(newValue.doubleValue()));
+        saturationSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+                colorAdjust.setSaturation(newValue.doubleValue()));
+        stickerImageView.setEffect(colorAdjust);
+    }
+
+    public void bindActiveTool(ReadOnlyObjectProperty<Tool> activeTool) {
+        this.activeTool = activeTool;
+    }
+
+    public void bindTextHeight(ReadOnlyObjectProperty<Double> textHeight) {
+        this.textHeight = textHeight;
     }
 
     public void drawImage(Image image) {
         openedImage = image;
         imageView.setImage(image);
         stickerImageView.setImage(image);
-        var viewport = new Rectangle2D(image.getWidth()/4, image.getHeight()/4, 512, 512);
+        var viewport = new Rectangle2D(image.getWidth() / 4, image.getHeight() / 4, 512, 512);
         stickerImageView.setViewport(viewport);
         imagePane.setVvalue(imagePane.getVmax());
-        imagePane.setHvalue(imagePane.getHmax()/4);
+        imagePane.setHvalue(imagePane.getHmax() / 4);
         Platform.runLater(() -> {
             layers.getItems().clear();
             layers.getItems().add(new Layer("Background", stickerImageView));
@@ -118,8 +131,8 @@ public class TabInternalsController {
     private void shift(ImageView imageView, Point2D delta) {
         Rectangle2D viewport = imageView.getViewport();
 
-        var width = imageView.getImage().getWidth() ;
-        var height = imageView.getImage().getHeight() ;
+        var width = imageView.getImage().getWidth();
+        var height = imageView.getImage().getHeight();
 
         var maxX = width - viewport.getWidth();
         var maxY = height - viewport.getHeight();
@@ -177,7 +190,7 @@ public class TabInternalsController {
         Rectangle2D viewport = stickerImageView.getViewport();
 
 
-        double scale = clamp(scaleProperty.get() + 0.1*sign(delta),
+        double scale = clamp(scaleProperty.get() + 0.1 * sign(delta),
                 // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
                 Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
 
@@ -213,9 +226,13 @@ public class TabInternalsController {
     private void onMouseReleased(MouseEvent event) {
         var tool = activeTool.getValue();
         tool.handleDragEnd(event);
-        var select = (Select)tool;
+        var select = (Select) tool;
         var selection = select.getSelection();
-        var wim = new WritableImage((int)selection.getWidth(), (int)selection.getHeight());
+        if (selection.getWidth() == 0) {
+            // an erroneous click
+            return;
+        }
+        var wim = new WritableImage((int) selection.getWidth(), (int) selection.getHeight());
         var parameter = new SnapshotParameters();
         var scale = select.getScale();
         if (Math.abs(1 - scale) > 0.00001) {
@@ -225,28 +242,28 @@ public class TabInternalsController {
         imageView.snapshot(parameter, wim);
         var textCanvasContext = activeLayer.get().getContext();
         textCanvasContext.clearRect(0, 0, 512, 512);
-        var height = textHeightSpinner.getValue().doubleValue() * scale;
-        var lines = layers.getItems().size()-1;
-        var line = lines-selectionModel.getSelectedIndex()-1;
+        var height = textHeight.getValue() * scale;
+        var lines = layers.getItems().size() - 1;
+        var line = lines - selectionModel.getSelectedIndex() - 1;
         textCanvasContext.drawImage(wim,
-                (512-selection.getWidth()) / 2,
-                3*512.0/4-height*lines/2+height*line+height/2
+                (512 - selection.getWidth()) / 2,
+                3 * 512.0 / 4 - height * lines / 2 + height * line + height / 2
         );
         activeLayer.getValue().updatePreview();
     }
 
-    // TODO: broken, but whatever
-    private void repositionText(Layer layer, Image image, int sign) {
-        var textCanvasContext = layer.getContext();
-        textCanvasContext.clearRect(0, 0, 512, 512);
-        var height = textHeightSpinner.getValue().doubleValue();
-        var lines = layers.getItems().size()-1;
-        textCanvasContext.drawImage(image,
-                0,
-                sign*height*lines/2+height/2
-        );
-        layer.updatePreview();
-    }
+    // TODO: broken, make layer remember selection and make it re-grab the text instead of whatever this is
+//    private void repositionText(Layer layer, Image image, int sign) {
+//        var textCanvasContext = layer.getContext();
+//        textCanvasContext.clearRect(0, 0, 512, 512);
+//        var height = textHeightSpinner.getValue().doubleValue();
+//        var lines = layers.getItems().size()-1;
+//        textCanvasContext.drawImage(image,
+//                0,
+//                sign*height*lines/2+height/2
+//        );
+//        layer.updatePreview();
+//    }
 
     @FXML
     private void onToolEntered(MouseEvent event) {
@@ -260,11 +277,18 @@ public class TabInternalsController {
         tool.handleToolLeave(event, toolCanvas);
     }
 
+    @FXML
+    private void resetColorCorrection() {
+        brightnessSlider.setValue(0);
+        saturationSlider.setValue(0);
+        contrastSlider.setValue(0);
+    }
+
     public BufferedImage getImageForSaving() {
         final SnapshotParameters spa = new SnapshotParameters();
         spa.setViewport(new Rectangle2D(
-                (fullStickerPane.getWidth()-512)/2,
-                (fullStickerPane.getHeight()-512)/2,
+                (fullStickerPane.getWidth() - 512) / 2,
+                (fullStickerPane.getHeight() - 512) / 2,
                 512, 512));
         var image = new WritableImage(512, 512);
         fullStickerPane.snapshot(spa, image);
@@ -292,7 +316,7 @@ public class TabInternalsController {
         var selectedIndex = selectionModel.getSelectedIndex();
         if (selectedIndex == layers.getItems().size() - 1) return;
         var image = activeLayer.getValue().getImage();
-        var prevLayer = layers.getItems().get(selectedIndex+1);
+        var prevLayer = layers.getItems().get(selectedIndex + 1);
         prevLayer.drawImage(image);
         this.deleteActiveLayer();
     }

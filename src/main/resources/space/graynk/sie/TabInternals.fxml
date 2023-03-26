@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<BorderPane xmlns="http://javafx.com/javafx/11"
-            xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/11"
             fx:controller="space.graynk.sie.TabInternalsController">
-  <bottom>
-    <ToolBar>
-      <Label labelFor="$textHeightSpinner" text="Text Height"/>
-      <Spinner fx:id="textHeightSpinner" editable="true"/>
-      <Separator/>
-      <Label labelFor="$paddingSpinner" text="Text Scale Padding"/>
-      <Spinner fx:id="paddingSpinner" editable="true"/>
-    </ToolBar>
-  </bottom>
   <center>
     <SplitPane fx:id="splitPane">
       <ScrollPane fx:id="imagePane" fitToHeight="true" fitToWidth="true">
         <StackPane fx:id="imageStackPane">
           <ImageView fx:id="imageView" preserveRatio="true"/>
-          <Canvas fx:id="toolCanvas" onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" onMouseEntered="#onToolEntered" onMouseExited="#onToolExited"/>
+          <Canvas fx:id="toolCanvas" onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged"
+                  onMouseReleased="#onMouseReleased" onMouseEntered="#onToolEntered"
+                  onMouseExited="#onToolExited"/>
         </StackPane>
       </ScrollPane>
       <StackPane fx:id="fullStickerPane" onScroll="#onStickerPaneScroll">
-        <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed" onMouseDragged="#onStickerDragged" onMouseReleased="#onStickerReleased" onScroll="#onStickerScroll"/>
+        <ImageView fx:id="stickerImageView" preserveRatio="true" onMousePressed="#onStickerPressed"
+                   onMouseDragged="#onStickerDragged" onMouseReleased="#onStickerReleased"
+                   onScroll="#onStickerScroll"/>
       </StackPane>
     </SplitPane>
   </center>
   <right>
-    <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
-                BorderPane.alignment="TOP_CENTER">
-      <ListView fx:id="layers"/>
-    </TitledPane>
+    <VBox>
+      <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Layers"
+                  BorderPane.alignment="TOP_CENTER">
+        <ListView fx:id="layers"/>
+      </TitledPane>
+      <Separator/>
+      <ToolBar orientation="VERTICAL" maxWidth="Infinity">
+        <padding>
+          <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Label labelFor="$brightnessSlider" text="Brightness"/>
+        <Slider fx:id="brightnessSlider" showTickMarks="true" showTickLabels="true" min="-1" max="1"
+                majorTickUnit="0.1"/>
+        <Label labelFor="$contrastSlider" text="Contrast"/>
+        <Slider fx:id="contrastSlider" showTickMarks="true" showTickLabels="true" min="-1" max="1"
+                majorTickUnit="0.1"/>
+        <Label labelFor="$saturationSlider" text="Saturation"/>
+        <Slider fx:id="saturationSlider" showTickMarks="true" showTickLabels="true" min="-1" max="1"
+                majorTickUnit="0.1"/>
+        <Button text="Reset" onAction="#resetColorCorrection" maxWidth="Infinity" prefHeight="30"/>
+      </ToolBar>
+    </VBox>
   </right>
 </BorderPane>
