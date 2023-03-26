@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <BorderPane xmlns="http://javafx.com/javafx/11"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.graynk.sie.TabInternalsController">
-  <bottom>
-    <ToolBar>
-      <Label labelFor="$textHeightSpinner" text="Text Height"/>
-      <Spinner fx:id="textHeightSpinner" editable="true"/>
-      <Separator/>
-      <Label labelFor="$paddingSpinner" text="Text Scale Padding"/>
-      <Spinner fx:id="paddingSpinner" editable="true"/>
-    </ToolBar>
-  </bottom>
   <center>
     <SplitPane fx:id="splitPane">
       <ScrollPane fx:id="imagePane" fitToHeight="true" fitToWidth="true">

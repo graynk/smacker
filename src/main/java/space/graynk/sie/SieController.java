@@ -1,21 +1,20 @@
 package space.graynk.sie;
 
 import javafx.application.Platform;
-import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import space.graynk.sie.gui.SimpleFileTreeItem;
+import space.graynk.sie.tools.Tool;
+import space.graynk.sie.tools.manipulation.Select;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.AbstractDocument;
 
 public class SieController {
     private final ExecutorService worker = Executors.newSingleThreadExecutor(r -> {
@@ -47,9 +45,15 @@ public class SieController {
     private MenuItem deleteLayerMenu;
     @FXML
     private MenuItem mergeLayerMenu;
+    @FXML
+    private Spinner<Double> textHeightSpinner;
+    @FXML
+    private Spinner<Integer> paddingSpinner;
     private TabInternalsController activeTabController;
     private final Map<Tab, TabInternalsController> controllerMap = new HashMap<>(16);
 
+    // It's probably only ever going to be Select, but whatever
+    private ReadOnlyObjectProperty<Tool> activeTool;
     private File readDirectory;
     private File writeDirectory;
     private final FileChooser fileChooser = new FileChooser();
@@ -77,8 +81,13 @@ public class SieController {
 
     @FXML
     private void initialize() {
+        textHeightSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 55, 42));
+        paddingSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 200, 80));
         this.updateFileTreeView(this.readDirectory);
         fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
             var file = newValue.getValue();
             if (file.isDirectory()) {
                 return;
@@ -119,6 +128,9 @@ public class SieController {
             try {
                 Parent tabInternals = fxmlLoader.load();
                 TabInternalsController tabInternalsController = fxmlLoader.getController();
+                this.activeTool = new ReadOnlyObjectWrapper<>(new Select(this.paddingSpinner.valueProperty(), this.textHeightSpinner.valueProperty()));
+                tabInternalsController.bindActiveTool(this.activeTool);
+                tabInternalsController.bindTextHeight(this.textHeightSpinner.valueProperty());
                 var tab = new Tab(name, tabInternals);
                 tab.setClosable(true);
                 controllerMap.put(tab, tabInternalsController);

@@ -40,17 +40,14 @@ public class TabInternalsController {
     @FXML
     private Canvas toolCanvas;
     @FXML
-    private Spinner<Integer> textHeightSpinner;
-    @FXML
-    private Spinner<Integer> paddingSpinner;
-    @FXML
     private StackPane fullStickerPane;
     @FXML
     private ImageView stickerImageView;
 
     private SelectionModel<Layer> selectionModel;
     private ReadOnlyObjectProperty<Layer> activeLayer;
-    private ObjectProperty<Tool> activeTool;
+    private ReadOnlyObjectProperty<Tool> activeTool;
+    private ReadOnlyObjectProperty<Double> textHeight;
     public ReadOnlyBooleanProperty backgroundSelected;
     private final IntegerProperty layersCount = new SimpleIntegerProperty(0);
     public ReadOnlyIntegerProperty layersCountProperty;
@@ -62,9 +59,6 @@ public class TabInternalsController {
 
     @FXML
     private void initialize() {
-        textHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 55, 42));
-        paddingSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 200, 80));
-        this.activeTool = new ReadOnlyObjectWrapper<>(new Select(paddingSpinner.valueProperty()));
         var layerCountWrapper = new ReadOnlyIntegerWrapper(0);
         layerCountWrapper.bind(layersCount);
         layersCountProperty = layerCountWrapper.getReadOnlyProperty();
@@ -83,20 +77,26 @@ public class TabInternalsController {
             var count = layers.getItems().size();
             layersCount.set(count);
         });
-        layersCount.addListener((observable, oldValue, newValue) -> {
-            var count = layers.getItems().size();
-            // -1 skips the background
-            for (int i = 0; i < count-1; i++) {
-                var layer = layers.getItems().get(i);
-                repositionText(layer, layer.getImage(), oldValue.intValue()-newValue.intValue());
-            }
-        });
+//        layersCount.addListener((observable, oldValue, newValue) -> {
+//            var count = layers.getItems().size();
+//            // -1 skips the background
+//            for (int i = 0; i < count-1; i++) {
+//                var layer = layers.getItems().get(i);
+//                repositionText(layer, layer.getImage(), oldValue.intValue()-newValue.intValue());
+//            }
+//        });
         layers.setCellFactory(listView -> new LayerCell());
         toolCanvas.widthProperty().bind(imageStackPane.widthProperty());
         toolCanvas.heightProperty().bind(imageStackPane.heightProperty());
         scaleProperty.addListener((observable, oldValue, newValue) -> drawStickerBackground(newValue.doubleValue()));
-        ((Select) activeTool.get()).setSelectionHeight(textHeightSpinner.getValue());
-        textHeightSpinner.valueProperty().addListener((observable, oldValue, newValue) -> ((Select) activeTool.get()).setSelectionHeight(newValue));
+    }
+
+    public void bindActiveTool(ReadOnlyObjectProperty<Tool> activeTool) {
+        this.activeTool = activeTool;
+    }
+
+    public void bindTextHeight(ReadOnlyObjectProperty<Double> textHeight) {
+        this.textHeight = textHeight;
     }
 
     public void drawImage(Image image) {
@@ -215,6 +215,10 @@ public class TabInternalsController {
         tool.handleDragEnd(event);
         var select = (Select)tool;
         var selection = select.getSelection();
+        if (selection.getWidth() == 0) {
+            // an erroneous click
+            return;
+        }
         var wim = new WritableImage((int)selection.getWidth(), (int)selection.getHeight());
         var parameter = new SnapshotParameters();
         var scale = select.getScale();
@@ -225,7 +229,7 @@ public class TabInternalsController {
         imageView.snapshot(parameter, wim);
         var textCanvasContext = activeLayer.get().getContext();
         textCanvasContext.clearRect(0, 0, 512, 512);
-        var height = textHeightSpinner.getValue().doubleValue() * scale;
+        var height = textHeight.getValue() * scale;
         var lines = layers.getItems().size()-1;
         var line = lines-selectionModel.getSelectedIndex()-1;
         textCanvasContext.drawImage(wim,
@@ -235,18 +239,18 @@ public class TabInternalsController {
         activeLayer.getValue().updatePreview();
     }
 
-    // TODO: broken, but whatever
-    private void repositionText(Layer layer, Image image, int sign) {
-        var textCanvasContext = layer.getContext();
-        textCanvasContext.clearRect(0, 0, 512, 512);
-        var height = textHeightSpinner.getValue().doubleValue();
-        var lines = layers.getItems().size()-1;
-        textCanvasContext.drawImage(image,
-                0,
-                sign*height*lines/2+height/2
-        );
-        layer.updatePreview();
-    }
+    // TODO: broken, make layer remember selection and make it re-grab the text instead of whatever this is
+//    private void repositionText(Layer layer, Image image, int sign) {
+//        var textCanvasContext = layer.getContext();
+//        textCanvasContext.clearRect(0, 0, 512, 512);
+//        var height = textHeightSpinner.getValue().doubleValue();
+//        var lines = layers.getItems().size()-1;
+//        textCanvasContext.drawImage(image,
+//                0,
+//                sign*height*lines/2+height/2
+//        );
+//        layer.updatePreview();
+//    }
 
     @FXML
     private void onToolEntered(MouseEvent event) {

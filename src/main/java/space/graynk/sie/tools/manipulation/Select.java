@@ -13,15 +13,16 @@ import space.graynk.sie.tools.Tool;
 public class Select extends Tool {
     private Point2D mouseStart;
     private Point2D mouseEnd;
-    private double selectionHeight;
     private Canvas canvas;
     private GraphicsContext context;
     private double scale = 1;
-    private ReadOnlyObjectProperty<Integer> scalePadding;
+    private final ReadOnlyObjectProperty<Integer> scalePadding;
+    private final ReadOnlyObjectProperty<Double> textHeight;
 
-    public Select(ReadOnlyObjectProperty<Integer> scalePadding) {
+    public Select(ReadOnlyObjectProperty<Integer> scalePadding, ReadOnlyObjectProperty<Double> textHeight) {
         super();
         this.scalePadding = scalePadding;
+        this.textHeight = textHeight;
     }
 
     @Override
@@ -34,11 +35,11 @@ public class Select extends Tool {
 
     @Override
     public void handleDrag(MouseEvent event) {
+        var height = textHeight.getValue();
         super.handleDrag(event);
         var startX = mouseStart.getX();
-        var startY = mouseStart.getY() - selectionHeight;
+        var startY = mouseStart.getY() - height;
         var width = event.getX() - startX;
-        var height = selectionHeight;
 
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // probably can be done with a gradient, but whatever
@@ -71,15 +72,11 @@ public class Select extends Tool {
         toolCanvas.getScene().setCursor(Cursor.DEFAULT);
     }
 
-    public void setSelectionHeight(double selectionHeight) {
-        this.selectionHeight = selectionHeight;
-    }
-
     public Rectangle2D getSelection() {
+        var height = this.textHeight.getValue();
         var startX = mouseStart.getX();
-        var startY = mouseStart.getY() - selectionHeight;
+        var startY = mouseStart.getY() - height;
         var width = mouseEnd.getX() - startX;
-        var height = selectionHeight;
         return new Rectangle2D(startX * this.scale,
                 startY * this.scale,
                 width * this.scale,

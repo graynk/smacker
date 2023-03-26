@@ -111,4 +111,13 @@
       </Menu>
     </MenuBar>
   </top>
+  <bottom>
+    <ToolBar>
+      <Label labelFor="$textHeightSpinner" text="Text Height"/>
+      <Spinner fx:id="textHeightSpinner" editable="true"/>
+      <Separator/>
+      <Label labelFor="$paddingSpinner" text="Text Scale Padding"/>
+      <Spinner fx:id="paddingSpinner" editable="true"/>
+    </ToolBar>
+  </bottom>
 </BorderPane>
