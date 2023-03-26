@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import javafx.scene.input.KeyCodeCombination?>
-<BorderPane xmlns="http://javafx.com/javafx/11"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/11"
+            fx:id="rootPane"
             fx:controller="space.graynk.sie.SieController"
             prefWidth="1600"
             prefHeight="900">
@@ -23,7 +24,7 @@
             <FontIcon iconLiteral="fltral-folder-open-20" iconSize="18"/>
           </graphic>
           <accelerator>
-            <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
           </accelerator>
         </MenuItem>
         <Menu mnemonicParsing="false" text="Open Recent"/>
@@ -33,7 +34,7 @@
             <FontIcon iconLiteral="fltrmz-save-20" iconSize="18"/>
           </graphic>
           <accelerator>
-            <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
           </accelerator>
         </MenuItem>
         <MenuItem mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As…">
@@ -41,7 +42,7 @@
             <FontIcon iconLiteral="fltrmz-save-as-20" iconSize="18"/>
           </graphic>
           <accelerator>
-            <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
           </accelerator>
         </MenuItem>
         <SeparatorMenuItem mnemonicParsing="false"/>
@@ -93,7 +94,7 @@
       <Menu mnemonicParsing="false" text="Layers">
         <MenuItem mnemonicParsing="false" text="Add New Layer" onAction="#addLayer">
           <accelerator>
-            <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
           </accelerator>
         </MenuItem>
         <MenuItem fx:id="deleteLayerMenu" mnemonicParsing="false" text="Delete Layer" onAction="#deleteLayer"/>
@@ -118,6 +119,10 @@
       <Separator/>
       <Label labelFor="$paddingSpinner" text="Text Scale Padding"/>
       <Spinner fx:id="paddingSpinner" editable="true"/>
+      <Label labelFor="$scalingStatus" text="Scaling"/>
+      <Label fx:id="scalingStatus" text="❌" textFill="red"/>
+      <Label labelFor="$resettingStatus" text="Resetting"/>
+      <Label fx:id="resettingStatus" text="❌" textFill="red"/>
     </ToolBar>
   </bottom>
 </BorderPane>
