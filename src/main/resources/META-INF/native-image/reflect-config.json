@@ -1,5 +1,8 @@
 [
 {
+  "name":"[Ljavafx.collections.transformation.SortedList$Element;"
+},
+{
   "name":"com.sun.glass.ui.gtk.GtkPlatformFactory",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -115,6 +118,10 @@
   "methods":[{"name":"createRenderer","parameterTypes":["com.sun.scenario.effect.FilterContext"] }]
 },
 {
+  "name":"com.sun.scenario.effect.impl.prism.ps.PPSColorAdjustPeer",
+  "methods":[{"name":"<init>","parameterTypes":["com.sun.scenario.effect.FilterContext","com.sun.scenario.effect.impl.Renderer","java.lang.String"] }]
+},
+{
   "name":"com.sun.scenario.effect.impl.prism.ps.PPSLinearConvolveShadowPeer",
   "methods":[{"name":"<init>","parameterTypes":["com.sun.scenario.effect.FilterContext","com.sun.scenario.effect.impl.Renderer","java.lang.String"] }]
 },
@@ -212,6 +219,12 @@
   "allPublicConstructors":true
 },
 {
+  "name":"javafx.scene.control.Button",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"javafx.scene.control.ButtonBase",
   "allDeclaredMethods":true
 },
@@ -284,6 +297,19 @@
   "name":"javafx.scene.control.SeparatorMenuItem",
   "allDeclaredMethods":true,
   "allPublicConstructors":true
+},
+{
+  "name":"javafx.scene.control.Slider",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setMajorTickUnit","parameterTypes":["double"] }, 
+    {"name":"setMax","parameterTypes":["double"] }, 
+    {"name":"setMin","parameterTypes":["double"] }, 
+    {"name":"setShowTickLabels","parameterTypes":["boolean"] }, 
+    {"name":"setShowTickMarks","parameterTypes":["boolean"] }
+  ]
 },
 {
   "name":"javafx.scene.control.Spinner",
@@ -415,9 +441,19 @@
   "allPublicConstructors":true
 },
 {
+  "name":"javafx.scene.layout.VBox",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"javafx.scene.paint.Color",
   "allPublicMethods":true,
   "allPublicConstructors":true
+},
+{
+  "name":"javafx.scene.paint.Paint",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"javafx.scene.shape.LineTo"
