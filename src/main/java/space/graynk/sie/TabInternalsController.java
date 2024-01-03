@@ -287,8 +287,8 @@ public class TabInternalsController {
     public BufferedImage getImageForSaving() {
         final SnapshotParameters spa = new SnapshotParameters();
         spa.setViewport(new Rectangle2D(
-                (fullStickerPane.getWidth() - 512) / 2,
-                (fullStickerPane.getHeight() - 512) / 2,
+                Math.ceil((fullStickerPane.getWidth() - 512) / 2),
+                Math.ceil((fullStickerPane.getHeight() - 512) / 2),
                 512, 512));
         var image = new WritableImage(512, 512);
         fullStickerPane.snapshot(spa, image);
